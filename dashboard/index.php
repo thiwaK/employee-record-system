@@ -1,49 +1,51 @@
 <?php
 	include("../inc/header.php");
-
-    include('../phpclasses/pagination.php');
+	include('../phpclasses/pagination.php');
 
     $limit = 10;
-	    
-	//get number of rows
+	$get_emp_quary = "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit";
+	$unitname;
+
+	echo"USER TYPE".$usertype.'';
+	$usertype = 'Admin';
+
+
 	if($usertype == "Admin"){
-	$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employee LIMIT $limit");
-	$resultNum = $queryNum->fetch_assoc();
-	$rowCount = $resultNum['postNum'];
-										    
-	//initialize pagination class
-	$pagConfig = array(
-		'totalRows' => $rowCount,
-		'perPage' => $limit,
-		'link_func' => 'searchFilter'
-	);
-	$pagination =  new Pagination($pagConfig);
-		}								    
-	//get rows
-	else if($usertype=="superuser")	
-	{
-	$query = $db_connect->query("SELECT userunit  FROM users WHERE username='$username'");
+		$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employee LIMIT $limit");
+		$resultNum = $queryNum->fetch_assoc();
+		$rowCount = $resultNum['postNum'];
+												
+		$pagConfig = array(
+			'totalRows' => $rowCount,
+			'perPage' => $limit,
+			'link_func' => 'searchFilter'
+		);
+		$pagination =  new Pagination($pagConfig);
+
+
+	} else if($usertype=="superuser")	{
+		$query = $db_connect->query("SELECT userunit  FROM users WHERE username='$username'");
 		$result = $query->fetch_assoc();
-		$unitname = $result['userunit'];
-	//	echo $unitname;
-	$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employee 
-INNER JOIN units_of_etc ON employee.unit=units_of_etc.unit_name
-INNER JOIN users ON units_of_etc.unit_name=users.userunit
-	WHERE employee.unit='$unitname'");
-	$resultNum = $queryNum->fetch_assoc();
-	$rowCount = $resultNum['postNum'];
-										    
-	//initialize pagination class
-	$pagConfig = array(
-		'totalRows' => $rowCount,
-		'perPage' => $limit,
-		'link_func' => 'searchFilter'
-	);
-	$pagination =  new Pagination($pagConfig);
+		$unitname = $result['division_name'];
+		
+		$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employee 
+		INNER JOIN units_of_etc ON employee.unit=units_of_etc.unit_name
+		INNER JOIN users ON units_of_etc.unit_name=users.userunit
+		WHERE employee.unit='$unitname'");
+		$resultNum = $queryNum->fetch_assoc();
+		$rowCount = $resultNum['postNum'];
+												
+		$pagConfig = array(
+			'totalRows' => $rowCount,
+			'perPage' => $limit,
+			'link_func' => 'searchFilter'
+		);
+		$pagination =  new Pagination($pagConfig);
 	}
-
-
 ?>
+
+
+
 	<section class="side-menu fixed left">
 		<div class="top-sec">
 			<div class="dash_logo">
@@ -93,24 +95,6 @@ INNER JOIN users ON units_of_etc.unit_name=users.userunit
 						</form>
 					</div>
 				</div>
-				<?php
-					if($usertype=="Admin")
-					{
-					$getemp = mysqli_query($db_connect, "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit");
-					$getempcount = mysqli_num_rows($getemp);
-				   }
-				    else if($usertype=="superuser")	
-					{
-					$getemp = mysqli_query($db_connect, "SELECT * FROM employee 
-INNER JOIN units_of_etc ON employee.unit=units_of_etc.unit_name
-INNER JOIN users ON units_of_etc.unit_name=users.userunit
-	WHERE employee.unit='$unitname'
-  ORDER BY employee_id DESC LIMIT $limit");
-					$getempcount = mysqli_num_rows($getemp);
-					
-				   }
-
-				?>
 				<ul class="emp_list">
 					<li class="emp_list_head">
 						<div class="emp_item_head emp_id">Employee ID</div>
@@ -122,62 +106,71 @@ INNER JOIN users ON units_of_etc.unit_name=users.userunit
 						<div class="emp_item_head">Action</div>
 					</li>
 					<div id="displayempList">
-						<?php
-							if($getempcount >= 1 ){
-								while($fetch = mysqli_fetch_assoc($getemp)){
-									$id = $fetch['id'];
-									$emp_id = $fetch['employee_id'];
-									$name_with_initials = $fetch['name_with_initials'];
-									$designation = $fetch['designation'];
-									$unit = $fetch['unit'];
-                					$service_category = $fetch['service_category'];
+					<?php
 
-                                    
+					if($usertype=="Admin") {
+						$getemp = mysqli_query($db_connect, "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit");
+						$getempcount = mysqli_num_rows($getemp);
+						echo '<><><><><><><><><><'.$getemp.'';
+					} else if($usertype=="superuser") {
+						$getemp = mysqli_query($db_connect, $get_emp_quary);
+						$getempcount = mysqli_num_rows($getemp);
+					}
 
+					echo '#############################'.$getempcount.'###########################'; 
+					
+					if($getempcount >= 1 ){
+						while($fetch = mysqli_fetch_assoc($getemp)){
+							$id = $fetch['id'];
+							$emp_id = $fetch['employee_id'];
+							$name_with_initials = $fetch['name_with_initials'];
+							$designation = $fetch['designation'];
+							$unit = $fetch['unit'];
+							$service_category = $fetch['service_category'];
 
-										if($usertype == "Admin" or $usertype == "superuser" ){
-											echo '										
-												<li class="emp_item">
-													<div class="emp_column emp_id">'.$emp_id.'</div>
-													<div class="emp_column ">'.$name_with_initials.'</div>
-													<div class="emp_column">'.$designation.'</div>
-													<div class="emp_column">'.$unit.'</div>
-													<div class="emp_column ">'.$service_category.'</div>
+							if($usertype == "Admin" or $usertype == "superuser" ){
+								echo '										
+									<li class="emp_item">
+										<div class="emp_column emp_id">'.$emp_id.'</div>
+										<div class="emp_column ">'.$name_with_initials.'</div>
+										<div class="emp_column">'.$designation.'</div>
+										<div class="emp_column">'.$unit.'</div>
+										<div class="emp_column ">'.$service_category.'</div>
 
-													<div class="emp_column">
-														<ul class="action_list">
-															<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
-															<li class="action_item action_edit" data-id="'.$id.'" title="Edit"><i class="fa fa-pencil-square-o"></i></li>
-															<li class="action_item action_delete" data-id="'.$id.'" title="Delete"><i class="fa fa-trash-o"></i></li>
-														</ul>
-													</div>
-												</li>
-											';
-										} else {
-
-											echo '										
-												<li class="emp_item">
-													<div class="emp_column emp_id">'.$emp_id.'</div>
-													<div class="emp_column ">'.$name_with_initials.'</div>
-													<div class="emp_column">'.$designation.'</div>
-													<div class="emp_column">'.$unit.'</div>
-													<div class="emp_column ">'.$service_category.'</div>
-
-													<div class="emp_column">
-														<ul class="action_list">
-															<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
-														</ul>
-													</div>
-												</li>
-											';
-										}
-									
-								}
-								echo $pagination->createLinks();
+										<div class="emp_column">
+											<ul class="action_list">
+												<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
+												<li class="action_item action_edit" data-id="'.$id.'" title="Edit"><i class="fa fa-pencil-square-o"></i></li>
+												<li class="action_item action_delete" data-id="'.$id.'" title="Delete"><i class="fa fa-trash-o"></i></li>
+											</ul>
+										</div>
+									</li>
+								';
 							} else {
-								echo '<li class="emp_item"> No employee record found </li>';
+
+								echo '										
+									<li class="emp_item">
+										<div class="emp_column emp_id">'.$emp_id.'</div>
+										<div class="emp_column ">'.$name_with_initials.'</div>
+										<div class="emp_column">'.$designation.'</div>
+										<div class="emp_column">'.$unit.'</div>
+										<div class="emp_column ">'.$service_category.'</div>
+
+										<div class="emp_column">
+											<ul class="action_list">
+												<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
+											</ul>
+										</div>
+									</li>
+								';
 							}
-						?>
+								
+						}
+							echo $pagination->createLinks();
+					} else {
+						echo '<li class="emp_item"> No employee record found </li>';
+					}
+					?>
 					</div>
 				</ul>
 			</div>

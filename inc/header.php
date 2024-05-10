@@ -1,19 +1,17 @@
 <?php 
     include("db_connect.php");
 
+    $usertype = '';
+
     session_start();
     if (isset($_SESSION['username'])){
-
         $username = $_SESSION['username'];
-
     }
-    else {
-        
-        $username = '';
-    }
+   
 
-    if(!$username){
-        header("Location: ../index.php?error=failed_login");
+    if(empty($username)){
+        echo "You are being redirected...";
+        header("Location: ./login_failed.php?error=failed_login");
     }
 
     $userdetails = mysqli_query($db_connect, "SELECT * FROM users WHERE username='$username' ");
@@ -22,8 +20,8 @@
     if($userdetailscount == 1){
         while($fetch = mysqli_fetch_assoc($userdetails)){
             $id = $fetch['user_id'];
-            $firstname = $fetch['firstname'];
-            $lastname = $fetch['lastname'];
+            // $firstname = $fetch['firstname'];
+            // $lastname = $fetch['lastname'];
             $username = $fetch['username'];
             $usertype = $fetch['accounttype'];
         }

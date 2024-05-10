@@ -1,24 +1,18 @@
 <?php 
     ob_start();
-    include("./inc/db_connect.php");
+    include("../inc/db_connect.php");
 
     session_start();
     
     if (isset($_SESSION['username'])){
         $username = $_SESSION['username'];
-    }
-    else {
+    } else {
         $username = '';
     }
-
-    if($username){
+    
+    if(empty($username)){
         header("location: dashboard");
     }
-
-    // if(isset($_GET['error'])){
-    //     $error_login = "failed_login";
-    // }
-
 
     if(isset($_POST['submit'])){
 
@@ -78,7 +72,7 @@
  <body id="loginPage">
  	<div class="login_wrapper clearfix">
  		<div class="logo_login">
-            <img src="images/agri_logo.jpg">
+            <img src="../images/agri_logo.jpg">
              <h3> Employee Record System </h3>
 <br>
  		</div>
