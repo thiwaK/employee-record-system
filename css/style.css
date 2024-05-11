@@ -1,3 +1,44 @@
+/* Thiwanka Kaushal */
+:root{
+    --primary:#024667;
+    --secondary:#007bff;
+}
+
+.submenu {
+    margin-left: 15px;
+}
+
+section {
+    height: 100vh;
+}
+
+.sidebar {
+    width: 16%;
+    max-width: 256px;
+    height: 100%;
+    background: var(--primary);
+    color: whitesmoke;
+} 
+.nav-item a{
+    display: block;
+    padding: 12px 10px;
+    color: #78d3ff;
+    font-size: 1.1em;
+}
+.submenu:hover{
+    background: #03364e;
+}
+.nav-item.current{
+    background: #03364e;
+}
+.nav-item.current a{
+    color: #fff;
+}
+.nav-item a:hover{
+    color: #fff;
+}
+
+/* End Thiwanka kaushal */
 body {
     background: #f7f7f7;
     width: 100%!important;
@@ -142,26 +183,32 @@ h1, h2, h3, h4, h5, h6 {
 /*
     Dashboard
 */
-.side-menu {
+/* .side-menu {
     width: 16%;
     max-width: 256px;
     height: 100%;
-    background: #024667;
-}
+    background: var(--primary);
+}  */
+
 .dash_logo{
     width: 50%;
     height: 60px;
     margin: 2px auto;
     overflow: show;
 }
-.dash_logo img{
+/* .dash_logo img{
     width: 80%;
     height: 100%;
-}
+} */
 .top-sec p{
     text-align: center;
-    color: #fff;
-    text-transform: uppercase;
+    /* color: #fff; */
+    /* text-transform: uppercase; */
+}
+.top-sec h4{
+    text-align: center;
+    /* color: #fff; */
+    /* text-transform: uppercase; */
 }
 .nav{
     width: 100%;
@@ -170,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
     overflow-x: hidden;
     overflow-y: auto;
 }
-.nav .nav-item a{
+/* .nav .nav-item a{
     display: block;
     padding: 12px 10px;
     color: #78d3ff;
@@ -187,7 +234,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .nav .nav-item a:hover{
     color: #fff;
-}
+} */
 .nav-icon{
     display: inline-block;
     margin-right: 15px;

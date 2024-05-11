@@ -3,11 +3,13 @@
     include("./inc/db_connect.php");
 
     session_start();
-    
     if (isset($_SESSION['username'])){
+
         $username = $_SESSION['username'];
+
     }
     else {
+        
         $username = '';
     }
 
@@ -15,9 +17,10 @@
         header("location: dashboard");
     }
 
-    // if(isset($_GET['error'])){
-    //     $error_login = "failed_login";
-    // }
+
+    if(isset($_GET['error'])){
+        $error_login = "failed_login";
+    }
 
 
     if(isset($_POST['submit'])){
@@ -55,9 +58,9 @@
     
 
     }
+
+
 ?>
-
-
 <!doctype html>
 <html class="no-js" lang="">
     <head>

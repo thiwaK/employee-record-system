@@ -59,11 +59,12 @@ function prnt(){
 		<th  rowspan='2'><label>Permanent or Not</label></th>
         <th  rowspan='2'><label>subjected to desciplinary actions or not</label></th>
         
-    </tr>";
+    </tr>
     
 
     while($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
+       
         echo "<td>" . $row['name_with_initials'] . "</td>";
         echo "<td>" . $row['designation'] . "</td>";
         echo "<td>" . $row['date_of_birth'] . "</td>";
@@ -77,6 +78,9 @@ function prnt(){
         echo "<td>" . $row['service_category'] . "</td>";
         echo "<td>" .$row['appointment'] . "</td>";  
         echo "<td>" . $row['subject_to_desciplinary'] . "</td>";   
+      
+        
+        
         echo "</tr>";
     }    
 
