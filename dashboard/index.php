@@ -43,15 +43,22 @@
 
 ?>
 
-<section class="col-md-4 col-lg-3 d-md-block sidebar" style="height: 100vh; overflow-y: auto;">
-    <div class="sidebar-sticky">
-        <div class="top-sec m-3">
-            <div class="dash_logo"><img src="../images/logo.png" alt="Dashboard Logo"></div>
-            <h4 class="mt-5">Employee Record System</h4>
-            <p class="m-4">Logged in as <?php echo $username; ?></p>
-        </div>
+<div class="container-fluid">
+  <div class="row ml-0 mr-0">
+    
+	<!-- Left sidebar for navigation -->
+    <section class="col-lg-2 col-md-3 left border-right m-0" >
+      <div class="sidebar">
 
-        <ul class="nav flex-column mt-1">
+		<div class="card bg-transparent text-center border-0">
+			<img class="card-img-top mx-auto mt-3" style="max-width: 50%;" src="../images/logo.png" alt="NRMC Logo">
+			<div class="card-body">
+				<h5 class="card-title">Employee Record System</h5>
+				<p class="card-text">Logged in as <?php echo $username; ?></p>
+			</div>
+		</div>
+
+        <ul class="nav flex-column pt-2 pl-3">
             <!-- Employees  -->
             <li class="nav-item">
                 <a class="nav-link nav-icon" href="#employeesSubMenu" data-toggle="collapse" aria-expanded="false" aria-controls="employeesSubMenu">
@@ -87,76 +94,71 @@
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/settings.php"><span class="nav-icon"><i class="fa fa-cog"></i></span>Settings</a></li>
                 </ul>
             </li>
-            <li class="nav-item"><a class="nav-link" href="../dashboard/logout.php"><span class="nav-icon"><i class="fa fa-sign-out-alt"></i></span>Sign out</a></li>
+
+			<!-- Logout -->
+            <li class="nav-item">
+				<a class="nav-link" href="../dashboard/logout.php"><span class="nav-icon"><i class="fa fa-sign-out-alt"></i></span>Sign out</a>
+			</li>
         </ul>
-    </div>
-</section>
+      </div>
+    </section>
 
-<section class="col-md-8 col-lg-9 right clearfix" style="height: 100vh; overflow-y: auto;">
-	
-	<div class="container">
-		<div class="wrapper employee_list clearfix">
-			
-		<div class="section_title d-flex">All Employees</div>
+    <!-- Main content area -->
+    <section class="col-md-8 col-lg-9 right border-left m-0">
+		<div class="">
+			<div class="h2 d-flex">All Employees</div>
 
-
-			<div class="top-bar align-items-center">
-				
-				<div class="top-item">
-					<form id="empFilter" method="post" action="">
-						<!-- <?php if($usertype=="Admin"){?>
-							<input class="filterField filterVal" type="text" placeholder="Search by Name,Designation,Unit" onkeyup="searchFilter()">
-						<?php }?> -->
-						<!-- <?php if($usertype=="superuser"){?>
-							<input class="filterField filterVal" type="text" placeholder="Search by Name,Designation" onkeyup="searchFilter()">
-						<?php }?> -->
-						<input class="filterField filterVal" type="text" placeholder="Search by Name, Designation, Division" onkeyup="searchFilter()">
-					</form>
-				</div>
-				
-				<div class="top-item">
-					<form id="empFilter" method="post" action="">
-						<select class="sortField sortVal" onchange="searchFilter()">
+				<div class="m-2 align-items-center">
+					<div class="d-inline-block">
+						<form id="empFilter" method="post" action="" class="form-inline">
+							<div class="form-group">
+								<input class="form-control" type="text" placeholder="Search by Name, Designation, Division" style="width: 350px;" onkeyup="searchFilter()">
+							</div>
+						</form>
+					</div>
+					
+					<div class="d-inline-block">
+					<form id="empFilter" method="post" action="" class="form-inline">
+						<div class="form-group">
+							<select class="form-control sortField sortVal" onchange="searchFilter()">
 							<option value="ASC">Newest</option>
 							<option value="DESC">Oldest</option>
-						</select>
-					</form>
+							</select>
+						</div>
+						</form>
+					</div>
+
 				</div>
 
-			</div>
+				<?php
+					if($usertype=="Admin") {
+						$getemp = mysqli_query($db_connect, "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit");
+						$getempcount = mysqli_num_rows($getemp);
 
+					} else if($usertype=="superuser") {
+						$getemp = mysqli_query($db_connect, "SELECT * FROM employee 
+							INNER JOIN units_of_etc ON employee.unit=units_of_etc.unit_name
+							INNER JOIN users ON units_of_etc.unit_name=users.userunit
+								WHERE employee.unit='$unitname'
+							ORDER BY employee_id DESC LIMIT $limit");
+						$getempcount = mysqli_num_rows($getemp);	
+					}
+				?>
 
-			<?php
-				if($usertype=="Admin") {
-					$getemp = mysqli_query($db_connect, "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit");
-					$getempcount = mysqli_num_rows($getemp);
-
-				} else if($usertype=="superuser") {
-					$getemp = mysqli_query($db_connect, "SELECT * FROM employee 
-						INNER JOIN units_of_etc ON employee.unit=units_of_etc.unit_name
-						INNER JOIN users ON units_of_etc.unit_name=users.userunit
-							WHERE employee.unit='$unitname'
-						ORDER BY employee_id DESC LIMIT $limit");
-					$getempcount = mysqli_num_rows($getemp);	
-				}
-			?>
-
-			<ul class="emp_list">
-
-				<li class="emp_list_head">
-					<div class="emp_item_head emp_id">Employee ID</div>
-					<div class="emp_item_head ">Name</div>
-					<div class="emp_item_head">Designation</div>
-					<div class="emp_item_head">Unit</div>
-					
-					<div class="emp_item_head ">Service Category</div>
-					<div class="emp_item_head">Action</div>
-				</li>
-				
-				<div id="displayempList">
-					<?php
-						if($getempcount >= 1 ){
-							while($fetch = mysqli_fetch_assoc($getemp)){
+				<table class="table table-hover table-sm">
+					<thead class="thead-dark">
+						<th class="emp_id">Employee ID</th>
+						<th class="">Name</th>
+						<th class="">Designation</th>
+						<th class="">Unit</th>
+						<th class="">Service Category</th>
+						<!-- <th class="">Action</th> -->
+						</tr>
+					</thead>
+					<tbody id="displayempList" class="">
+						<?php
+						if($getempcount >= 1 ) {
+							while($fetch = mysqli_fetch_assoc($getemp)) {
 								$id = $fetch['id'];
 								$emp_id = $fetch['employee_id'];
 								$name_with_initials = $fetch['name_with_initials'];
@@ -164,112 +166,45 @@
 								$unit = $fetch['unit'];
 								$service_category = $fetch['service_category'];
 
-								if($usertype == "Admin" or $usertype == "superuser" ){
-									echo '										
-										<li class="emp_item">
-											<div class="emp_column emp_id">'.$emp_id.'</div>
-											<div class="emp_column ">'.$name_with_initials.'</div>
-											<div class="emp_column">'.$designation.'</div>
-											<div class="emp_column">'.$unit.'</div>
-											<div class="emp_column ">'.$service_category.'</div>
-
-											<div class="emp_column">
-												<ul class="action_list">
-													<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
-													<li class="action_item action_edit" data-id="'.$id.'" title="Edit"><i class="fa fa-pencil-square-o"></i></li>
-													<li class="action_item action_delete" data-id="'.$id.'" title="Delete"><i class="fa fa-trash-o"></i></li>
-												</ul>
-											</div>
-										</li>
-									';
-								} else {
-
-									echo '										
-										<li class="emp_item">
-											<div class="emp_column emp_id">'.$emp_id.'</div>
-											<div class="emp_column ">'.$name_with_initials.'</div>
-											<div class="emp_column">'.$designation.'</div>
-											<div class="emp_column">'.$unit.'</div>
-											<div class="emp_column ">'.$service_category.'</div>
-
-											<div class="emp_column">
-												<ul class="action_list">
-													<li class="action_item action_view" data-id="'.$id.'" title="View"><i class="fa fa-eye"></i></li>
-												</ul>
-											</div>
-										</li>
-									';
-								}
-								
+								echo '<tr class="">';
+									echo '<td class="emp_id">' . $emp_id . '</td>';
+									echo '<td class="">' . $name_with_initials . '</td>';
+									echo '<td class="">' . $designation . '</td>';
+									echo '<td class="">' . $unit . '</td>';
+									echo '<td class="">' . $service_category . '</td>';
+								echo '</tr>';
 							}
-							
 							echo $pagination->createLinks();
-						
 						} else {
-							echo '<li class="emp_item"> No employee record found </li>';
+							echo '<tr class="emp_item"><td colspan="6"> No employee record found </td></tr>';
 						}
-					?>
-				</div>
-
-			</ul>
+						?>
+					</tbody>
+				</table>
 		</div>
-
-	</div>
-
-
-	<div class="modal">
-		<span class="close-modal">
-			<img src="../images/times.png">
-		</span>
-		<div class="inner_section">
-			<div id="record_container" class="record_container">
-				<span class="print-modal" onclick="Clickheretoprint()">
-					<img src="../images/print.png">
-				</span>
-				<div id="table">
-				</div>
-				<div class="printbtn_wrapper">
-					<span class="printbtn"> Print</span>
-				</div>
-			</div>
-		</div>
-	</div>
+	</section>
 
 
-	<div class="del_modal">
-		<div class"inner_section">
-			<div class="delcontainer">
-				<div class="del_title">Delete Record</div>
-				<div class="del_warning"></div>
-				<div class="btnwrapper">
-					<span class="delbtn yesbtn" data-id="">Yes</span>
-					<span class="delbtn nobtn">No</span>
-				</div>
-			</div>
-		</div>
-	</div>
-
-</section>
-
+	<!-- Add print page option -->
 
 <script>
-    $(document).ready(function(){
-        $('.nav-link').click(function(){
+    // $(document).ready(function(){
+    //     $('.nav-link').click(function(){
 
-            // Toggle indicators
-			// $('.nav-link').not(this).removeClass('collapsed');
-            // $('.nav-link').not(this).attr('aria-expanded', 'false');
-            // $('.nav-link').not(this).parent().find('.collapse').removeClass('show');
+    //         // Toggle indicators
+	// 		// $('.nav-link').not(this).removeClass('collapsed');
+    //         // $('.nav-link').not(this).attr('aria-expanded', 'false');
+    //         // $('.nav-link').not(this).parent().find('.collapse').removeClass('show');
 
-			$('.fa').not(this).removeClass('collapsed').removeClass('fa-plus').addClass('fa-minus');
+	// 		$('.fa').not(this).removeClass('collapsed').removeClass('fa-plus').addClass('fa-minus');
             
-			if ($(this).attr('aria-expanded') === 'true') {
-				$(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
-            } else {
-                $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
-            }
-        });
-    });
+	// 		if ($(this).attr('aria-expanded') === 'true') {
+	// 			$(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+    //         } else {
+    //             $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+    //         }
+    //     });
+    // });
 </script>
 
 

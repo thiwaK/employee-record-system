@@ -28,21 +28,23 @@
 ?>
 
 <!DOCTYPE html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NRMC Employee Record System</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-        <!-- <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css" />   -->
-        <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    	<link href="../css/font-awesome.min.css" type="text/css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NRMC Employee Record System</title>
+    <meta name="description" content="Employee Record System - NRMC">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/favicon.ico">
 
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-    </head>
-	
+    <link rel="stylesheet" type="text/css" href="/ERS/css/bootstrap.min.css">
+	<link href="/ERS/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/ERS/css/style.css"/>
+
+    <script src="/ERS/js/jquery.slim.min.js"></script>
+    <script src="/ERS/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>	
