@@ -5803,8 +5803,9 @@ fieldset:disabled .tox .tox-dialog__footer .tox-button--secondary,
 
 .nav-pills {
   --falcon-nav-pills-border-radius: var(--falcon-border-radius);
-  --falcon-nav-pills-link-active-color: #fff;
-  --falcon-nav-pills-link-active-bg: #2c7be5;
+  --falcon-nav-pills-link-active-color: #033e8c;
+  /* --falcon-nav-pills-link-active-bg: #2c7be5; */
+  --falcon-nav-pills-link-active-bg: rgba(44, 123, 229, 0.2);
 }
 .nav-pills .nav-link {
   border-radius: var(--falcon-nav-pills-border-radius);

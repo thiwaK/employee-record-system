@@ -5,11 +5,11 @@
     if (isset($_SESSION['username'])) {
         $username = $_SESSION['username'];
     } else {
-        $username = '';
+        $username = null;
     }
 
     if(!$username) {
-        header("Location: ../index.php?error=failed_login");
+        header("Location: /ERS/index.php?error=failed_login");
     }
 
     $usertype;
@@ -44,12 +44,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     
-    <!-- <link href="https://prium.github.io/falcon/v3.20.0/vendors/simplebar/simplebar.min.css" rel="stylesheet"> -->
-    <!-- <link href="https://prium.github.io/falcon/v3.20.0/assets/css/theme-rtl.min.css" rel="stylesheet" id="style-rtl"> -->
     <link href="/ERS/css/theme.css" rel="stylesheet" id="style-default">
-    <!-- <link href="https://prium.github.io/falcon/v3.20.0/vendors/simplebar/user.min.css" rel="stylesheet"> -->
-    
-
     <link rel="stylesheet" type="text/css" href="/ERS/css/style.css"/>
 
     <script src="/ERS/js/jquery.slim.min.js"></script>

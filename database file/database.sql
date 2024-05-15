@@ -14,13 +14,8 @@
 -- Generate dummy employee dataset
 
 
--- NOTE
--- Assume one employee can have many positions with time, one position can have many employees
--- We can't assign phone_office to a employee right? office phone number should belongs to the position/place + room
-
-
 -- Settings
--- SET time_zone = "+05:30";
+SET time_zone = "+05:30";
 
 
 -- Create Database and Tables 
@@ -30,14 +25,14 @@ USE `emp_nrmc`;
 -- Change id length from 11 to 2
 -- Change division_name length from 300 to 60
 -- Alter id to auto increment
-CREATE TABLE `division` (
+CREATE TABLE `divisions` (
   `division_id` int(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `division_name` varchar(60) NOT NULL
 );
 
 -- Change id length from 11 to 2
 -- Alter id to auto increment
-CREATE TABLE `salary_scale` (
+CREATE TABLE `salary_scales` (
   `scale_id` int(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `scale_name` varchar(10) NOT NULL
 );
@@ -45,13 +40,23 @@ CREATE TABLE `salary_scale` (
 -- Change id length from 11 to 3
 -- Alter id to auto increment
 -- Alter table name from `post` to `position`
-CREATE TABLE `position` (
+CREATE TABLE `positions` (
   `position_id` int(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `position_name` varchar(25) NOT NULL UNIQUE
 );
 
--- Alter email column into a table
--- Alter phone_mobile column into a table
+CREATE TABLE `employee_classes` (
+  `class_id` int(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `class_name` varchar(25) NOT NULL UNIQUE
+);
+
+CREATE TABLE `employee_status` (
+  `status_id` int(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `status_name` varchar(25) NOT NULL UNIQUE
+);
+
+
+
 -- Alter id to auto increment
 -- Alter id to length from 11 to 5
 -- Alter employee_id to employee_number
@@ -60,34 +65,29 @@ CREATE TABLE `position` (
 -- Alter column name `id_number` to `nic`
 -- Alter column name `s_scale` to `salary_scale`
 -- Make `nic` primary key
-CREATE TABLE `employee` (
-  -- `employee_id` int(5) INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-  
-  `employee_number` int(11) NOT NULL UNIQUE,
+CREATE TABLE `employees` (
+  `employee_number` varchar(11) NOT NULL PRIMARY KEY,
   `name_with_initials` varchar(150) NOT NULL,
   `name_denoted_initials` varchar(250) NOT NULL,
   `date_of_birth` date NOT NULL,
-  -- `id_number` text NOT NULL,
-  `nic` varchar(15) NOT NULL PRIMARY KEY,
-  -- `email` text NOT NULL,
+  `nic` varchar(15) NOT NULL,
+  `email` text NOT NULL,
   `permanent_address` varchar(100) NOT NULL,
   `postal_address` varchar(100) NOT NULL,
-
-  `appointment` varchar(100) NOT NULL,
+  `appointment` TINYINT(1) NOT NULL,
   `salary_scale` varchar(10) NOT NULL, -- Table Precence
   `phone_office` int(12) NOT NULL,
-  -- `phone_mobile` int(11) NOT NULL,
-  -- `unit` text NOT NULL,
+  `phone_mobile` int(11) NOT NULL,
   `division_name` varchar(60) NOT NULL, -- Table Precence
   `service_category` varchar(20) NOT NULL,
-  -- `class` text NOT NULL,
-  `designation` varchar(20) NOT NULL,
+  `class` varchar(25) NOT NULL,
+  `designation` varchar(25) NOT NULL,
   `duties_assigned` varchar(50) NOT NULL,
   `joined_public_date` date NOT NULL,
   `joined_nrmc` date NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `status` varchar(25) NOT NULL,
   `status_date` date NOT NULL DEFAULT current_timestamp(),
-  `subject_to_desciplinary` varchar(10) NOT NULL
+  `subject_to_desciplinary` TINYINT(1) NOT NULL
 );
 
 -- Change id length from 11 to 2
@@ -95,61 +95,19 @@ CREATE TABLE `employee` (
 -- Add relationship to employee table
 -- Auto incrementing user_id
 CREATE TABLE `users` (
-  `user_id` int(3) NOT NULL AUTO_INCREMENT ,
+  `user_id` int(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` text NOT NULL,
   `password` text NOT NULL,
   `accounttype` text NOT NULL,
-  `employee_number` int(11) NOT NULL UNIQUE,
-  FOREIGN KEY (employee_number) REFERENCES employee(employee_number)
-);
-
-
-
--- Additional Tables
-
-CREATE TABLE email (
-  id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  employee_number INT(5) NOT NULL,
-  FOREIGN KEY (employee_number) REFERENCES employee(employee_number)
-);
-
-
-CREATE TABLE mobile_phone (
-  id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  phone_number VARCHAR(12) NOT NULL,
-  employee_number INT NOT NULL,
-  FOREIGN KEY (employee_number) REFERENCES employee(employee_number)
-);
-
-CREATE TABLE employee_class (
-  class_id INT(2) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  class_name VARCHAR(12) NOT NULL,
-  employee_number INT NOT NULL,
-  change_date DATE NOT NULL,
-  FOREIGN KEY (employee_number) REFERENCES employee(employee_number)
-);
-
-CREATE TABLE employee_position (
-  employee_number int(11) NOT NULL,
-  position_name varchar(25) NOT NULL,
-  start_date DATE NOT NULL,
-  end_date DATE DEFAULT NULL,
-  PRIMARY KEY (employee_number, position_name, start_date)
-);
-
-CREATE TABLE employee_division (
-  employee_number INT NOT NULL,
-  division_name varchar(60) NOT NULL,
-  start_date DATE NOT NULL,
-  PRIMARY KEY (employee_number, division_name, start_date)
+  `employee_number` varchar(11) NOT NULL,
+  FOREIGN KEY (employee_number) REFERENCES employees(employee_number)
 );
 
 
 
 
 -- Insert Data 
-INSERT INTO `division` (`division_name`) VALUES
+INSERT INTO `divisions` (`division_name`) VALUES
 ('Administration'),
 ('Soil Conservation'),
 ('Agro-Climatology & Climate'),
@@ -157,7 +115,7 @@ INSERT INTO `division` (`division_name`) VALUES
 ('Land and Water Resouces Management'),
 ('Knowledge Management');
 
-INSERT INTO `salary_scale` (`scale_name`) VALUES
+INSERT INTO `salary_scales` (`scale_name`) VALUES
 ('SL-03'), 
 ('SL-01'), 
 ('MN-7'), 
@@ -170,7 +128,25 @@ INSERT INTO `salary_scale` (`scale_name`) VALUES
 ('PL-2'), 
 ('PL-1');
 
-INSERT INTO `position` (`position_name`) VALUES
+INSERT INTO `employee_classes` (`class_name`) VALUES
+('SP'),
+('I'),
+('II'),
+('III'),
+('I-II'),
+('I-III'),
+('2-I'),
+('2-II'),
+('3-I'),
+('3-II'),
+('3-III');
+
+INSERT INTO `employee_status` (`class_name`) VALUES
+('Current Employee'),
+('Retired Employee'),
+('Transferred Employee');
+
+INSERT INTO `positions` (`position_name`) VALUES
 ( 'Director'),
 ( 'Additional Director'),
 ( 'Principal Agriculture Scientist'),
@@ -235,13 +211,14 @@ INSERT INTO `position` (`position_name`) VALUES
 ( 'Sanitary Labourer'),
 ( 'Contract Labourer '),
 ( 'Officer in charge(Women Extension)'),
-( 'Officer in charge(optional food crops)');
+( 'Officer in charge(optional food crops)'),
+( 'Intern');
 
-INSERT INTO `employee` ('employee_number', 'name_with_initials', 'name_denoted_initials', 'date_of_birth', 'nic', 'email', 'appointment', 'salary_scale', 'permanent_address', 'postal_address', 'phone_office', 'phone_mobile', 'division_name', 'service_category', 'class', 'designation', 'duties_assigned', 'joined_public_date', 'joined_nrmc', 'status', 'status_date', 'subject_to_desciplinary') VALUES \
-('101010', 'Test', 'Test', '1982-02-03', '759439597v', 'Contract', 'MN-3', '735 Nicholson Lake
-Sarafort, WV 83878', '19210 Hill Cove Apt. 859
-Tuckerport, AZ 23850', '288.311.2405', 'Land Use Planning & Geo-Informatics', 'Bee Keeper', 'Musician', 'Test', '2024-07-04', 'None', 'Active', '2021-10-09', '0');
+
+INSERT INTO `employees` 
+(`employee_number`, `name_with_initials`,               `name_denoted_initials`, `date_of_birth`, `nic`,        `email`,                          `appointment`, `salary_scale`, `permanent_address`, `postal_address`, `phone_office`, `phone_mobile`, `division_name`,                       `service_category`, `class`, `designation`, `duties_assigned`, `joined_public_date`, `joined_nrmc`, `status`,           `status_date`, `subject_to_desciplinary`) VALUES \
+('TK-0001',         'M.W. Thiwanka Kaushal Munasinghe', 'M... W...',             '1999-06-19',    '991010101v', 'thiwanka.kaushal.mob@gmail.com', '0',           'SP' ,          'Kurunegala',        'Kurunegala',     '777123456',    '777123456',    'Land Use Planning & Geo-Informatics', 'Intern',           'I',     'Intern',      'Developer',       '2024-04-29',         '2024-04-29',  'Current Employee', '2024-04-29',  '0');
 
 
 INSERT INTO `users` (`username`, `password`, `accounttype`, `employee_number`) VALUES
-('test', 'test', 'Admin', '101010')
+('TK', 'WhoCares', 'Admin', 'TK-0001')

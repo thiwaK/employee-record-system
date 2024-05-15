@@ -21,6 +21,8 @@
 		$getuser = mysqli_query($db_connect, "SELECT COUNT(*) as user_cout FROM users");
 		$resultNum = $getuser->fetch_assoc();
 		$userCount = $resultNum['user_cout'];
+	} else {
+		header("Location: /ERS/dashboard/logout.php");
 	}
 ?>
 
@@ -71,9 +73,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col">
 
-				<div class="card">
+				<div class="col">
+					<div class="card">
 						<div class="card-body">
 							<div class="row">
 								<div class="col-3">

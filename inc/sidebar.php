@@ -7,7 +7,7 @@
 			</div>
 		</div>
 
-        <ul class="nav flex-column pt-2 pl-3">
+        <ul class="nav nav-pills flex-column pt-2 pl-3">
             <!-- Dashboard -->
             <li class="nav-item">
 				<a class="nav-link" href="../dashboard/"><span class="nav-link-icon"><i class="fa fa-desktop"></i></span><span class="nav-link-text ps-1">Dashboard</span></a>
@@ -22,10 +22,10 @@
 					</div>
 				</a>
                 <ul class="nav collapse ml-4" id="employeesSubMenu" style="margin-top: 0;">
-                    <li class="nav-item submenu"><a class="nav-link active" href="../dashboard/all_employee.php"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/all_employee.php"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/current_employees.php"><!--span class="nav-icon"><i class="fa fa-check"></i></span -->Current Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/past_employees.php"><!--span class="nav-icon"><i class="fa fa-times"></i></span -->Past Employees</a></li>
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/report_print.php"><!--span class="nav-icon"><i class="fa fa-print"></i></span -->Employee reports</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/report_print.php"><!--span class="nav-icon"><i class="fa fa-print"></i></span -->Employee Reports</a></li>
                     <?php if($usertype == "Admin" || $usertype == "superuser") {?>
                         <li class="nav-item submenu"><a class="nav-link" href="../dashboard/add_employee.php"><!-- span class="nav-icon"><i class="fa fa-user-plus"></i></span -->Add Employee</a></li>
                     <?php }?>
@@ -49,7 +49,7 @@
 				if($divisions_count >= 1 ) {
 					while($fetch = mysqli_fetch_assoc($get_divisions)) {
 						$division_name = $fetch['division_name'];
-						echo '<li class="nav-item submenu"><a class="nav-link active" href="../dashboard">'. $division_name .'</a></li>';
+						echo '<li class="nav-item submenu"><a class="nav-link" href="../dashboard/' . $division_name . '">'. $division_name .'</a></li>';
 					}
 				}
 
@@ -79,3 +79,51 @@
 			</li>
         </ul>
       </div>
+
+	  <script>
+
+		$(".nav .nav-link").on("click", function(){
+			$(".nav").find(".active").removeClass("active");
+			$(this).addClass("active");
+		});
+
+		function getFileName(filePath) {
+			var lastIndex = filePath.lastIndexOf("/");
+			var fileName = filePath.substring(lastIndex + 1);
+			return fileName;
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+			var path = window.location.pathname;
+			path = path.replace(/\/$/, "");
+			var path_file = getFileName(path).replace(/\s/g, "");
+
+			var navLinks = document.querySelectorAll(".nav-link");
+			// console.log("Current Path:" + path_file);
+
+			if (path_file === '' || path_file === ' ') {
+				return;
+			}
+
+			navLinks.forEach(function(navLink) {
+				var href = navLink.getAttribute("href");
+				var href_file = getFileName(href);
+
+				if (path_file === href_file) {
+					// console.log("Path matched:" + href_file);
+					navLink.parentNode.classList.add('show'); // Active link indicator
+					var parentLi = navLink.parentNode.parentNode;
+					// console.log("Parent: " + parentLi.innerHTML);
+					if (parentLi) {
+						parentLi.classList.add("show");
+					}
+
+					var parentSubMenu = navLink.nextElementSibling;
+					if (parentSubMenu && parentSubMenu.classList.contains("collapse")) {
+						parentSubMenu.classList.add("show");
+					}
+				}
+			});
+		});
+
+	  </script>

@@ -4,7 +4,7 @@
 
 	$limit = 10;         
 		
-	$allowedRoles = array("Administrator", "Manager", "User");
+	$allowedRoles = array("Admin", "Manager", "User");
 	$getempcount = 0;
 	if(in_array($usertype, $allowedRoles)) {
 		$getemp = mysqli_query($db_connect, "SELECT * FROM employee ORDER BY employee_id DESC LIMIT $limit");
