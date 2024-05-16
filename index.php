@@ -75,7 +75,7 @@
 
 
 
- <div class="container mt-5">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h2 class="text-center mb-4">Login</h2>
@@ -101,23 +101,164 @@
         </div>
     </div>
 
+
+    <div class="container">
+  <div class="row">
+    <div id="login-container">
+      <link rel="stylesheet" type="text/css" href="//s3.amazonaws.com/esp-static-contents/teledyne/teledyneProduction.css">
+      <div class="logo-row logo-footer">
+        <div class="link-center-align-container">
+          <a class="link-style" href="/Account/TcloudAbout">About</a>
+          <a class="link-style" href="/Account/TcloudSupport" style="margin-left: 40px;margin-right: 40px;">Support</a>
+          <a class="link-style" href="/Account/TcloudUserAgreement">User Agreement</a>
+        </div>
+      </div>
+      <div class="col-xs-12  col-sm-12  col-md-12 col-lg12" id="logo-row">
+        <form action="/Account/Login?ReturnUrl=%2F" class="form-horizontal" method="post" role="form">
+          <input name="__RequestVerificationToken" type="hidden" value="cqjMgIAQ3Hj6ViU2FSutj4MfvEDBmqUkDZPymUSCU6-3_WSuIkUjhlpMkx68lZxYcfHBGzT1GvHsrTpOdudr4rn7vroO3NqLwrVkjJ0yfvU1" />
+          <div id="loginbox" class="panel panel-info" style="background-color: rgba(255,255,255,0.9);
+border-radius: 10px; margin-left: auto;margin-right:auto; margin-top: 200px;">
+            <div class="panel-title text-center">
+              <span style="font-family: Freestyle Script;text-align: left;font-weight: 1000;font-size: 40px;color:#2f75b6">T</span>
+              <span style="font-size:30px; font-weight:550; color :gray; font-family: Franklin Gothic Book; ">Cloud</span>
+            </div>
+            <div class="panel-title text-center" style="color:black">Teledyne Technologies</div>
+            <div class="panel-info panel-body">
+              <div class="col-xs-12 col-md-12">
+                <div class="input-group ">
+                  <span class="input-group-addon">
+                    <i class="fa fa-at fa-fw"></i>
+                  </span>
+                  <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" placeholder="Email" style="height: 44px;margin-bottom: 2px;" type="text" value="" />
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="fa fa-key fa-fw"></i>
+                  </span>
+                  <input class="form-control" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" placeholder="Password" style="height: 44px;margin-bottom: 2px;" type="password" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-12 col-md-12">
+                  <span class="field-validation-valid text-danger validation-message" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                </div>
+                <div class="col-xs-12 col-md-12">
+                  <span class="field-validation-valid text-danger validation-message" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                </div>
+                <div class="col-xs-12 col-md-12"></div>
+              </div>
+              <div style="">
+                <input type="submit" value="Log in" class="btn btn-block" style="color: white; font-weight:400; background-color: #1f4e79;height:44px; margin-bottom: 5px;font-size: 20px" />
+              </div>
+              <div style="">
+                <input type="button" value="Guest Login" class="btn btn-block" onclick="location.href='/Account/GuestLogin'" style="color: white; font-weight:400; background-color: #1f4e79;height:44px; margin-bottom: 20px;font-size: 20px" />
+              </div>
+              <div class="form-group">
+                <div style="text-align: center;font-size: small;">
+                  <a href="/Account/ForgotPassword">Forgot your password?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
+
     <script>
-        // Client-side form validation using Bootstrap's built-in styles
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+	$("#loginForm").submit(function(event){
+		
+		event.preventDefault();
+
+		var usernameerror;
+		var passworderror;
+
+		if($(".username").val() == ""){
+			usernameerror = "Please enter your username";
+		} else {
+			usernameerror = "";
+		}
+
+		if($(".username").val() != "" && $(".username").val().length < 6){
+			usernameerror = "Username must at least be 6 characters";
+		}
+
+		if($(".password").val() == ""){
+			passworderror ="Please enter your password";
+		} else {
+			passworderror = "";
+		}
+
+		
+		if($(".password").val() != "" && $(".password").val().length < 8){
+			passworderror = "Password must at least be 6 characters";
+		}
+
+
+		$(".usernameerror").html(usernameerror);
+		$(".passworderror").html(passworderror);
+
+		if( usernameerror == "" && passworderror ==""){
+			var response;
+
+			$(".sign_in").html('<span class="sign-icon"><i class="fa fa-spinner fa-spin fa-1x fa-fw"></i></span> Loading');
+
+		$.ajax({
+				type: 'post',
+				url: 'index.php',
+				dataType: 'json',
+				data:{
+					username: $(".username").val(),
+					password: $(".password").val(),
+					submit: 'submit'
+				},
+				success: function(data){
+					response = (data.response);
+
+					if(response == "Success"){
+						$(".LogResponse").fadeIn();
+						$(".LogResponse").html("Success");
+						$(".LogResponse").css("background","#02fb8a");
+						$(".LogResponse").css("color","#29820d");
+						$(".sign_in").html('<span class="sign-icon"><i class="fa fa-lock"></i></span> Sign in');
+
+						setTimeout(function() {
+							window.location.replace("dashboard");;
+						}, 3000);
+
+					} else if(response == "password"){
+						$(".LogResponse").fadeIn();
+						$(".LogResponse").css("background","#900404");
+						$(".LogResponse").css("color","#ff6666");
+						$(".LogResponse").html("Invalid password");
+						$(".sign_in").html('<span class="sign-icon"><i class="fa fa-lock"></i></span> Sign in');
+
+						setTimeout(function(){
+							$(".LogResponse").fadeOut();
+						}, 3000)
+
+					} else if(response == "username"){
+						$(".LogResponse").fadeIn();
+						$(".LogResponse").css("background","#900404");
+						$(".LogResponse").css("color","#ff6666");
+						$(".LogResponse").html("Invalid username");
+						$(".sign_in").html('<span class="sign-icon"><i class="fa fa-lock"></i></span> Sign in')
+
+						setTimeout(function(){
+							$(".LogResponse").fadeOut();
+						}, 3000)
+					}
+				}
+			})
+		}
+	})
     </script>
  
 <?php include("./inc/footer.php"); ?>

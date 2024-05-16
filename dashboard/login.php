@@ -1,12 +1,12 @@
 <?php 
-
+ ob_start();
 include("../inc/db_connect.php");
 
 session_start();
 
 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
     
-    echo json_encode(array("response" => isset($_POST['username'])));
+    echo json_encode(array("response" => $_SERVER));
 
     if(isset($_POST['username']) && isset($_POST['password'])) {
 

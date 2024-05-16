@@ -10,11 +10,11 @@
 	$userCount = 0;
 
 	if(in_array($usertype, $allowedRoles)) {
-		$getemp = mysqli_query($db_connect, "SELECT COUNT(*) as active_employee FROM employee WHERE `status`='Current Employee'");
+		$getemp = mysqli_query($db_connect, "SELECT COUNT(*) as active_employee FROM employees WHERE `status`='Current Employee'");
 		$resultNum = $getemp->fetch_assoc();
 		$activeEmployeeCount = $resultNum['active_employee'];
 
-		$getdiv = mysqli_query($db_connect, "SELECT COUNT(*) as divisions FROM division");
+		$getdiv = mysqli_query($db_connect, "SELECT COUNT(*) as divisions FROM divisions");
 		$resultNum = $getdiv->fetch_assoc();
 		$divisionCount = $resultNum['divisions'];
 

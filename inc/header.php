@@ -8,9 +8,14 @@
         $username = null;
     }
 
-    if(!$username) {
-        header("Location: /ERS/index.php?error=failed_login");
-    }
+    
+    //-------------------------------FOR Debugging ONLY!!!
+
+    // if(!$username) {
+    //     header("Location: /ERS/index.php?error=failed_login");
+    // }
+
+    // --------------------------------
 
     $usertype;
     $userdetails = mysqli_query($db_connect, "SELECT * FROM users WHERE username='$username' ");
@@ -25,6 +30,13 @@
             $usertype = $fetch['accounttype'];
         }
     }
+
+    //-------------------------------FOR Debugging ONLY!!!
+    $firstname = 'Thiwanka';
+    $lastname = 'Kaushal';
+    $username = 'TK';
+    $usertype = 'Admin';
+    // --------------------------------
 ?>
 
 <!DOCTYPE html>
