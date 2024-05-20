@@ -1,11 +1,50 @@
 <?php
 	include("../inc/header.php");
 	include('../phpclasses/pagination.php');
+
+	
+	$result = $db_connect->query("SHOW TABLES LIKE 'salary_scales'");
+	if ($result->num_rows <= 0) {
+		$salary_scales_result = array();
+		echo "<script>console.log('Empty: salary_scales')</script>";
+	} else {
+		$salary_scales_result = mysqli_query($db_connect, "SELECT * FROM salary_scales");
+		echo "<script>console.log('Salary Scale: ".$salary_scales_result->num_rows."')</script>";
+	}
+
+
+	$result = $db_connect->query("SHOW TABLES LIKE 'divisions'");
+	if ($result->num_rows <= 0) {
+		$divisions_result = array();
+		echo "<script>console.log('Empty: divisions')</script>";
+	} else {
+		$divisions_result = mysqli_query($db_connect, "SELECT * FROM divisions");
+		echo "<script>console.log('Divisions: ".$divisions_result->num_rows."')</script>";
+	}
+	
+
+	$result = $db_connect->query("SHOW TABLES LIKE 'positions'");
+	if ($result->num_rows <= 0) {
+		$positions_result = array();
+		echo "<script>console.log('Empty: positions')</script>";
+	} else {
+		$positions_result = mysqli_query($db_connect, "SELECT * FROM positions");
+		echo "<script>console.log('positions: ".$positions_result->num_rows."')</script>";
+	}
+
+
+	$result = $db_connect->query("SHOW TABLES LIKE 'employee_classes'");
+	if ($result->num_rows <= 0) {
+		$employee_classes_result = array();
+		echo "<script>console.log('Empty: employee_classes')</script>";
+	} else {
+		$employee_classes_result = mysqli_query($db_connect, "SELECT * FROM employee_classes");
+		echo "<script>console.log('employee_classes: ".$employee_classes_result->num_rows."')</script>";
+	}
 ?>
 
 <div class="container-fluid">
 	<div class="row ml-0 mr-0">
-    
 		<!-- Left sidebar for navigation -->
 		<section class="col-lg-2 col-md-3 left border-right m-0" >
 			<?php include("../inc/sidebar.php"); ?>
@@ -17,34 +56,34 @@
 				<div class="displaySuccess"></div>
 				<div class="h2">Add Employee</div>
 
-				<form id="addemployee" class="clearfix" method="" action="addemployee.php">
+				<form id="addemployee" class="clearfix" method="POST" action="addemployee.php">
 					<h5 class="mt-5">Personal Details</h5>
 					<hr>
 					
 
 					<div class="form-group">
 						<label for="name_with_initials">Name with Initials</label>
-						<input type="text" class="form-control" id="name_with_initials" placeholder="Name with initials" required>
+						<input type="text" class="form-control" name="name_with_initials" id="name_with_initials" placeholder="Name with initials" not-required>
 					</div>
 
 					<div class="form-group">
 						<label for="name_denoted_initials">Name Denoted by Initials</label><br>
-						<input type="text" class="form-control" name="name_denoted_initials" placeholder="Name denoted by initials" required>
+						<input type="text" class="form-control" name="name_denoted_initials" placeholder="Name denoted by initials" not-required>
 					</div>
 					
 					<div class="form-row">
 						<div class="col">
-							<label for="employee_id">Employee ID</label>
-							<input type="text" class="form-control" id="employee_id" placeholder="Employee ID" required>
+							<label for="employee_id">Employee Number</label>
+							<input type="text" class="form-control" name="employee_number" id="employee_number" placeholder="Employee number" not-required>
 						</div>
 						<div class="col">
 							<label for="date_of_birth">Date of Birth</label>
-							<input type="date" class="form-control" name="date_of_birth"  placeholder="Date of birth" required>
+							<input type="date" class="form-control" name="date_of_birth"  placeholder="Date of birth" not-required>
 						</div>
 
 						<div class="col">
 							<label for="nic_number">National ID Number</label>
-							<input type="text" class="form-control" name="nic_number" placeholder="NIC" required>
+							<input type="text" class="form-control" name="nic_number" placeholder="NIC" not-required>
 						</div>
 					</div>
 
@@ -52,12 +91,12 @@
 					<hr>
 					<div class="form-group">
 						<label for="permanent_address">Permanent Address</label>
-						<input type="text" class="form-control" name="permanent_address" placeholder="Permanent address" required>
+						<input type="text" class="form-control" name="permanent_address" placeholder="Permanent address" not-required>
 					</div>
 
 					<div class="form-group">
 						<label for="postal_address">Postal Address</label>
-						<input type="text" class="form-control" name="postal_address" placeholder="Postal address" required>
+						<input type="text" class="form-control" name="postal_address" placeholder="Postal address" not-required>
 					</div>
 
 					<div class="form-group">
@@ -68,7 +107,7 @@
 					<div class="form-row">
 						<div class="col">
 							<label for="phone_mobile">Phone mobile</label><br>
-							<input type="text" class="form-control" name="phone_mobile" placeholder="Mobile number" required>
+							<input type="text" class="form-control" name="phone_mobile" placeholder="Mobile number" not-required>
 						</div>
 
 						<div class="col">
@@ -78,22 +117,14 @@
 						
 						<div class="col">
 							<label for="s_scale">Salary scale</label><br>
-							<select class="form-select form-control" name="s_scale">
+							<select class="form-select form-control" name="salary_scale">
 								<option value="">Choose...</option>
 								<?php
-									/*
-									$result = $db_connect->query("SHOW TABLES LIKE 'salary_scale'");
-									if ($result->num_rows <= 0) {return;}
-
-									$sql = "SELECT scale_id, scale_name FROM salary_scale";
-									$result = mysqli_query($db_connect, $sql);
-									$nor = $result->num_rows;
-
-									if($nor > 0){
-										while($rec = mysqli_fetch_assoc($result)){
+									if($salary_scales_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($salary_scales_result)){
 											echo("<option value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
 										}
-									}	*/
+									}	
 								?>
 							</select>
 						</div>
@@ -105,18 +136,11 @@
 					<div class="form-row">
 						<div class="col">
 							<label  for="division">Division</label>
-							<select class="form-select form-control " id="division">
+							<select class="form-select form-control " id="division" name="division_name">
 							<option selected>Choose...</option>
 								<?php
-									$result = $db_connect->query("SHOW TABLES LIKE 'division'");
-									if ($result->num_rows <= 0) {return;}
-
-									$sql = "SELECT division_id, division_name FROM division";
-									$result = mysqli_query($db_connect, $sql);
-									$nor = $result->num_rows;
-		
-									if($nor > 0){
-										while($rec = mysqli_fetch_assoc($result)){
+									if($divisions_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($divisions_result)){
 												echo("\t\t\t\t<option value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
 										}
 									}	
@@ -129,40 +153,25 @@
 							<select class="form-select form-control " name="designation">
 								<option value="">Choose...</option>
 								<?php
-									
-									/*$result = $db_connect->query("SHOW TABLES LIKE 'position'");
-									if ($result->num_rows <= 0) {return;}
-
-									$sql = "SELECT position_id, position_name FROM position";
-									$result = mysqli_query($db_connect, $sql);
-									$nor = $result->num_rows;
-		
-									if($nor > 0){
-										while($rec = mysqli_fetch_assoc($result)){
+									if($positions_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($positions_result)){
 											echo("<option value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
 										}
-									}*/
+									}
 								?>
 							</select>
 						</div>
 
 						<div class="col">
 							<label  for="class">Class/Grade</label>
-							<select class="form-select form-control " name="class">
+							<select class="form-select form-control " name="employee_class">
 								<option value="">Choose...</option>
 								<?php
-									/*$result = $db_connect->query("SHOW TABLES LIKE 'class'");
-									if ($result->num_rows <= 0) {return;}
-
-									$sql = "SELECT class_id, class_name FROM class";
-									$result = mysqli_query($db_connect, $sql);
-									$nor = $result->num_rows;
-		
-									if($nor > 0){
-										while($rec = mysqli_fetch_assoc($result)){
+									if($employee_classes_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($employee_classes_result)){
 											echo("<option value='".$rec["class_id"]."'>".$rec["class_name"]."</option>\n");
 										}
-									}	*/
+									}	
 								?>
 
 							</select>
@@ -173,16 +182,16 @@
 
 					<div class="form-row">
 						<div class="col">
-							<label  for="joined_public_date">Date employed</label>
+							<label for="joined_public_date">Date employed</label>
 							<input type="date" class="form-control" name="joined_public_date">
 						</div>
 						<div class="col">
-							<label  for="joined_nrmc">Joined date to NRMC</label>
+							<label for="joined_nrmc">Joined date to NRMC</label>
 							<input type="date" class="form-control" name="joined_nrmc">
 						</div>
 						<div class="col">
-							<label  for="status_date">Date of retirement or transfered</label>
-							<input type="date" class="form-control" name="status_date" placeholder="select date if transfered or Retired">
+							<label for="status_date">Date of retirement or transfered</label>
+							<input type="date" class="form-control" name="status_date" placeholder="Select date if transfered or retired">
 						</div>
 					</div>
 
@@ -227,12 +236,72 @@
 					
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
+
+				
+
 			</div>
 		</section>
+
+		<!-- Container for displaying messages -->
+		<div class="card text-center position-fixed top-50 start-50 translate-middle text-white mb-3" id="messageContainer" style="display: none; ">
+		<div class="card-header" id="messageHead"></div>
+		<div class="card-body">
+			<h5 class="card-title" id="messageTitle">Success card title</h5>
+			<span class="card-text" id="messageContent"></span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		</div>
+
 	
 	</div>
 
 
-	<?php
-	include("../inc/footer.php");
-	?>
+<script>
+
+	
+	document.getElementById('addemployee').addEventListener('submit', function(event) {
+		event.preventDefault();
+		
+		let formData = new FormData(this);
+		fetch('addemployee.php', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data => {
+			let messageContainer = document.getElementById('messageContainer');
+			let messageContent = document.getElementById('messageContent');
+			let messageHead = document.getElementById('messageHead');
+			let messageTitle = document.getElementById('messageTitle');
+
+			if (data.response === 100) {
+				messageContainer.classList.add('alert-success');
+				messageContent.textContent = data.message;
+				messageTitle.textContent = "Successeded";
+			} else {
+				messageTitle.textContent = "Failed";
+				messageContainer.classList.add('alert-danger');
+				messageContent.textContent = data.message;
+			}
+
+			messageContainer.style.display = 'block';
+			setTimeout(() => {
+				
+				messageContainer.style.display = 'none';
+				messageContainer.classList.remove('alert-success', 'alert-danger');
+				
+			}, 3000);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	});
+
+	
+</script>
+
+<?php
+include("../inc/footer.php");
+?>

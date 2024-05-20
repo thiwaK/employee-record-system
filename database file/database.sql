@@ -42,7 +42,7 @@ CREATE TABLE `salary_scales` (
 -- Alter table name from `post` to `position`
 CREATE TABLE `positions` (
   `position_id` int(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `position_name` varchar(25) NOT NULL UNIQUE
+  `position_name` varchar(250) NOT NULL UNIQUE
 );
 
 CREATE TABLE `employee_classes` (

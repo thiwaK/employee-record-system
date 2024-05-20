@@ -9,10 +9,10 @@
 	if(in_array($usertype, $allowedRoles)){
 
 
-		$getemp = mysqli_query($db_connect, "SELECT * FROM employee WHERE status='Retired Employee' OR status='Transferred Employee' ORDER BY employee_id ASC LIMIT $limit");
+		$getemp = mysqli_query($db_connect, "SELECT * FROM employees WHERE status='Retired Employee' OR status='Transferred Employee' ORDER BY employee_number ASC LIMIT $limit");
 		$getempcount = mysqli_num_rows($getemp);
 
-		$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employee WHERE status ='Retired Employee' OR status='Transferred Employee' LIMIT $limit");
+		$queryNum = $db_connect->query("SELECT COUNT(*) as postNum FROM employees WHERE status ='Retired Employee' OR status='Transferred Employee' LIMIT $limit");
 		$resultNum = $queryNum->fetch_assoc();
 		$rowCount = $resultNum['postNum'];
 												
@@ -79,18 +79,18 @@
                         <?php
                         if($getempcount >= 1 ) {
                             while($fetch = mysqli_fetch_assoc($getemp)) {
-                                $id = $fetch['id'];
-                                $emp_id = $fetch['employee_id'];
+                                // $id = $fetch['id'];
+                                $emp_id = $fetch['employee_number'];
                                 $name_with_initials = $fetch['name_with_initials'];
                                 $designation = $fetch['designation'];
-                                $unit = $fetch['unit'];
+                                $division = $fetch['division_name'];
                                 $service_category = $fetch['service_category'];
 
                                 echo '<tr class="">';
                                     echo '<td class="emp_id">' . $emp_id . '</td>';
                                     echo '<td class="">' . $name_with_initials . '</td>';
                                     echo '<td class="">' . $designation . '</td>';
-                                    echo '<td class="">' . $unit . '</td>';
+                                    echo '<td class="">' . $division . '</td>';
                                     echo '<td class="">' . $service_category . '</td>';
                                 echo '</tr>';
                             }

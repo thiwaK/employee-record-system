@@ -3,7 +3,7 @@
 			<img class="card-img-top mx-auto mt-3" style="max-width: 50%;" src="../images/logo.png" alt="NRMC Logo">
 			<div class="card-body">
 				<h5 class="card-title">Employee Record System</h5>
-				<p class="card-text">Logged in as <?php echo $username; ?></p>
+				<p class="card-text">Logged in as <?php echo $usertype; ?></p>
 			</div>
 		</div>
 
@@ -22,7 +22,7 @@
 					</div>
 				</a>
                 <ul class="nav collapse ml-4" id="employeesSubMenu" style="margin-top: 0;">
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/all_employee.php"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/all_employees.php"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/current_employees.php"><!--span class="nav-icon"><i class="fa fa-check"></i></span -->Current Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/past_employees.php"><!--span class="nav-icon"><i class="fa fa-times"></i></span -->Past Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/report_print.php"><!--span class="nav-icon"><i class="fa fa-print"></i></span -->Employee Reports</a></li>
@@ -42,18 +42,18 @@
 				</a>
                 <ul class="nav collapse ml-4 " id="divisionsSubMenu" style="margin-top: 0;">
 
-				<?php
-				$get_divisions = mysqli_query($db_connect, "SELECT division_name FROM division ORDER BY division_id");
-				$divisions_count = mysqli_num_rows($get_divisions);
+					<?php
+					$get_divisions = mysqli_query($db_connect, "SELECT division_name FROM divisions ORDER BY division_id");
+					$divisions_count = mysqli_num_rows($get_divisions);
 
-				if($divisions_count >= 1 ) {
-					while($fetch = mysqli_fetch_assoc($get_divisions)) {
-						$division_name = $fetch['division_name'];
-						echo '<li class="nav-item submenu"><a class="nav-link" href="../dashboard/' . $division_name . '">'. $division_name .'</a></li>';
+					if($divisions_count >= 1 ) {
+						while($fetch = mysqli_fetch_assoc($get_divisions)) {
+							$division_name = $fetch['division_name'];
+							echo '<li class="nav-item submenu"><a class="nav-link" href="../dashboard/' . $division_name . '">'. $division_name .'</a></li>';
+						}
 					}
-				}
 
-				?>
+					?>
                 </ul>
             </li>
 
@@ -78,9 +78,9 @@
 				<a class="nav-link" href="../dashboard/logout.php"><span class="nav-link-icon"><i class="fa fa-sign-out"></i></span><span class="nav-link-text ps-1">Sign Out</span></a>
 			</li>
         </ul>
-      </div>
+    </div>
 
-	  <script>
+	<script>
 
 		$(".nav .nav-link").on("click", function(){
 			$(".nav").find(".active").removeClass("active");
@@ -126,4 +126,4 @@
 			});
 		});
 
-	  </script>
+	</script>

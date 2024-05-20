@@ -85,3 +85,23 @@ li.nav-item a:hover {
     display: inline-block;
     margin-right: 10px;
 }
+
+/* Login */
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.fade-in.show {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.fade-out.hide {
+    opacity: 0;
+}
