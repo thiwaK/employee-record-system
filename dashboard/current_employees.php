@@ -86,7 +86,7 @@
                                 $division = $fetch['division_name'];
                                 $service_category = $fetch['service_category'];
 
-                                echo '<tr class="">';
+                                echo '<tr class="emp_row" data-id="' . $emp_id . '">';
                                     echo '<td class="emp_id">' . $emp_id . '</td>';
                                     echo '<td class="">' . $name_with_initials . '</td>';
                                     echo '<td class="">' . $designation . '</td>';
@@ -107,4 +107,6 @@
 			
 		</section>
 	</div>
-<!-- <script type="text/javascript" src="../js/global.js"></script> -->
+
+	<?php include("../inc/context_menu.php"); ?>
+    <?php include("../inc/models.php"); ?>

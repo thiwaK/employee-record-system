@@ -1,127 +1,124 @@
 <?php
 	include("../inc/header.php");
-
-    include('../phpclasses/pagination.php');
-
-	if($usertype != "Admin"){
-        header("Location: ../dashboard");
-    }
-
+	
+	$result = $db_connect->query("SHOW TABLES LIKE 'employees'");
+	if ($result->num_rows <= 0) {
+		$employees_result = array();
+		echo "<script>console.log('Empty: employees')</script>";
+	} else {
+		$employees_result = mysqli_query($db_connect, "SELECT * FROM employees");
+		echo "<script>console.log('employees: ".$employees_result->num_rows."')</script>";
+	}
 ?>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>NRMC Employee Record</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="../css/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    	<link href="../css/font-awesome.min.css" type="text/css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-        <script type="text/javascript" src="../js/jquery.min.js"></script>
-        <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.mask.js"></script>
-		<script type="text/javascript" src="../js/global.js"></script>
-    </head>
-<body>
-	<section class="side-menu fixed left">
-		<div class="top-sec">
-			<div class="dash_logo">
-				<img src="../images/logo.png">
-			</div>	<br> <br>		
-			<p>Employee Record System</p><br>
-			<p style="font-size:12px">Logged as <?php echo $username ?></p>
-			</div>
-		<ul class="nav">
-			<li class="nav-item"><a href="../dashboard"><span class="nav-icon"><i class="fa fa-users"></i></span>All Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/current_employees.php"><span class="nav-icon"><i class="fa fa-check"></i></span>Current Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/past_employees.php"><span class="nav-icon"><i class="fa fa-times"></i></span>Past Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/report_print.php"><span class="nav-icon"><i class="fa fa-print"></i></span>Employee reports</a></li>
-			<li class="nav-item"><a href="../dashboard/add_employee.php"><span class="nav-icon"><i class="fa fa-user-plus"></i></span>Add Employee</a></li>
-			<?php if($usertype == "Admin"){ ?>
-				<li class="nav-item"><a href="../backup/sys_backup.php"><span class="nav-icon"><i class="fa fa-database" aria-hidden="true"></i></span>Back up database</a></li>
-				<li class="nav-item current"><a href="../dashboard/add_user.php"><span class="nav-icon"><i class="fa fa-user"></i></span>Add User</a></li>
-				
-			<?php		} ?>
-			<li class="nav-item"><a href="../dashboard/settings.php"><span class="nav-icon"><i class="fa fa-cog"></i></span>Settings</a></li>
-			<li class="nav-item"><a href="../dashboard/logout.php"><span class="nav-icon"><i class="fa fa-sign-out"></i></span>Sign out</a></li>
-		</ul>
-	</section>
-	<section class="contentSection right clearfix">
-		<div class="displaySuccess"></div>
-		<div class="container">
-			<div class="wrapper add_employee clearfix">
-				<div class="section_title">Add User</div>
-				<form id="adduser" class="clearfix" method="post" action="
-				">
-					<div class="input-box input-small left">
-						<label for="idtype">Account type</label><br>
-						<select class="inputField usertype" name="idtype">
-							<option value="">-- Select user role --</option>
-							<option value="Admin">Admin</option>
-							<option value="superuser">Superuser</option>
-							<option value="Employee">Employee</option>
-						</select>
-						<div class="error usertypeerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="userunit">Unit of user</label><br>
-						<select class="inputField userunit" name="userunit">
-							<option value="">-- Select user unit --</option>
-							<?php
 
-								require_once("conn.php");
-								$dbobj = new dbConnection();
-								$con = $dbobj->getCon();
-	
-								$sql = "SELECT DISTINCT unit_name FROM divisions_of_nrmc WHERE 1;";
-								$result = mysqli_query($con,$sql);
-								$nor = $result->num_rows;
-	
-								if($nor>0){
-								while($rec = mysqli_fetch_assoc($result)){
-										$unit_name = $rec["unit_name"];
-										echo("<option value='".$rec["unit_name"]."'>".$unit_name."</option>");
-													}
-												}	
-									mysqli_close($con);?>
-						</select>
-						<div class="error useruniterror"></div>
+<div class="container-fluid">
+	<div class="row ml-0 mr-0">
+		<!-- Left sidebar for navigation -->
+		<section class="col-lg-2 col-md-3 left border-right m-0" >
+			<?php include("../inc/sidebar.php"); ?>
+		</section>
+
+		<section class="col-md-8 col-lg-9 right border-left m-0">
+			<div class="row">
+				<div class="displaySuccess"></div>
+				<div class="h2">Add User</div>
+
+				<form id="adduser" class="clearfix" method="POST" action="">
+					<h5 class="mt-5">User Details</h5>
+					<hr>
+
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
 					</div>
-					<div class="input-box input-small left">
-						<label for="firstname">First Name</label><br>
-						<input type="text" class="inputField firstname" name="firstname">
-						<div class="error firstnameerror"></div>
+
+					<div class="form-row">
+						<div class="col">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+						</div>
+						<div class="col">
+							<label for="password2">Confirm Password</label>
+							<input type="password" class="form-control" name="password2" id="password2" placeholder="Enter Password Again" required>
+						</div>
+						
 					</div>
-					<div class="input-box input-small right">
-						<label for="lastname">Last Name</label><br>
-						<input type="text" class="inputField lastname" name="lastname">
-						<div class="error lastnameerror"></div>
+
+					<div class="form-row">
+						<div class="col">
+							<label for="accounttype">Account Type</label>
+							<select class="form-select form-control" name="accounttype" id="accounttype" required>
+								<option value="">Choose...</option>
+								<option value="Admin">Admin</option>
+								<option value="User">User</option>
+							</select>
+						</div>
+						<div class="col">
+							<label for="employee_number">Employee Number</label>
+							<select class="form-select form-control" name="employee_number" id="employee_number" required>
+								<option value="">Choose...</option>
+								<?php
+									if($employees_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($employees_result)){
+											echo("<option value='".$rec["employee_number"]."'>".$rec["employee_number"]."</option>\n");
+										}
+									}    
+								?>
+							</select>
+						</div>
 					</div>
-					<div class="input-box input-small left">
-						<label for="username">Username</label><br>
-						<input type="text" class="inputField username" name="username">
-						<div class="error usernameerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="password">Password</label><br>
-						<input type="password" class="inputField password" name="password">
-						<div class="error passworderror"></div>
-					</div>
-					<div class="input-box input-small left">
-						<label for="confirmpassword">Confirm Password</label><br>
-						<input type="password" class="inputField confirmpassword" name="confirmpassword">
-						<div class="error confirmpassworderror"></div>
-					</div>
-					<div class="input-box">
-						<button type="submit" class="submitField">ADD USER</button>
-					</div>
+
+
+					<button type="submit" class="btn btn-primary mt-3">Submit</button>
 				</form>
 			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 
-</body>
-</html>
+	<?php include("../inc/notification_model.php"); ?>
+
+
+<script>
+	Notify = new Notify();
+
+	
+	document.getElementById('adduser').addEventListener('submit', function(event) {
+		event.preventDefault();
+
+		if(validatePasswords()){
+			let formData = new FormData(this);
+			fetch('../API/add_user.php', {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				
+				if (data.response === 100) {
+					Notify.Success("Success", "New user profile created successfully")
+				} else {
+					Notify.Warn("Error", "Failed to create new user profile. <strong>" + data.message + "</strong>")
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+			
+		} else {
+			Notify.Warn("Error", "Check your passwords.");
+
+		}
+		
+		
+	});
+
+    function validatePasswords() {
+        var password = document.getElementById("password").value;
+        var password2 = document.getElementById("password2").value;
+
+        if (password !== password2) {
+            return false;
+        }
+        return true;
+    }
+</script>

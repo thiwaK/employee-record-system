@@ -1,292 +1,331 @@
+	<?php
 
-<?php
-	include("../inc/header.php");
-										    
-	if($usertype =="employee"){
-        header("Location: ../dashboard");
-    }
+		include("../inc/header.php");
 
-    if(isset($_GET['id'])){
-    	$record_id = mysqli_real_escape_string($db_connect, $_GET['id']);
+		$result = $db_connect->query("SHOW TABLES LIKE 'salary_scales'");
+		if ($result->num_rows <= 0) {
+			$salary_scales_result = array();
+			echo "<script>console.log('Empty: salary_scales')</script>";
+		} else {
+			$salary_scales_result = mysqli_query($db_connect, "SELECT * FROM salary_scales");
+			echo "<script>console.log('Salary Scale: ".$salary_scales_result->num_rows."')</script>";
+		}
 
-    	$getinfo = mysqli_query($db_connect, "SELECT * FROM employee WHERE id = '$record_id' ");
-        $getinfocount = mysqli_num_rows($getinfo);
 
-        if($getinfocount == 1){
-            if($fetch = mysqli_fetch_assoc($getinfo)){
-                $employee_id = $fetch['employee_id'];
-                $name_with_initials = $fetch['name_with_initials'];
-                $name_denoted_initials = $fetch['name_denoted_initials'];
-                $date_of_birth = $fetch['date_of_birth'];
-                $id_number = $fetch['id_number'];
-                $email=$fetch['email'];
-                $appointment=$fetch['appointment'];
-                $s_scale=$fetch['s_scale'];
-                $subject_to_desciplinary=$fetch['subject_to_desciplinary'];
-                $permanent_address = $fetch['permanent_address'];
-                $postal_address = $fetch['postal_address'];
-                $phone_office = $fetch['phone_office'];
-                $phone_mobile = $fetch['phone_mobile'];
-                $unit = $fetch['unit'];
-                $service_category = $fetch['service_category'];
-                $class = $fetch['class'];
-                $designation = $fetch['designation'];
-                $duties_assigned = $fetch['duties_assigned'];
-                $joined_public_date = $fetch['joined_public_date'];
-                $joined_nrmc = $fetch['joined_nrmc'];
-                $status = $fetch['status'];
-                $status_date = $fetch['status_date'];
-            }
+		$result = $db_connect->query("SHOW TABLES LIKE 'divisions'");
+		if ($result->num_rows <= 0) {
+			$divisions_result = array();
+			echo "<script>console.log('Empty: divisions')</script>";
+		} else {
+			$divisions_result = mysqli_query($db_connect, "SELECT * FROM divisions");
+			echo "<script>console.log('Divisions: ".$divisions_result->num_rows."')</script>";
+		}
+
+
+		$result = $db_connect->query("SHOW TABLES LIKE 'positions'");
+		if ($result->num_rows <= 0) {
+			$positions_result = array();
+			echo "<script>console.log('Empty: positions')</script>";
+		} else {
+			$positions_result = mysqli_query($db_connect, "SELECT * FROM positions");
+			echo "<script>console.log('positions: ".$positions_result->num_rows."')</script>";
+		}
+
+
+		$result = $db_connect->query("SHOW TABLES LIKE 'employee_classes'");
+		if ($result->num_rows <= 0) {
+			$employee_classes_result = array();
+			echo "<script>console.log('Empty: employee_classes')</script>";
+		} else {
+			$employee_classes_result = mysqli_query($db_connect, "SELECT * FROM employee_classes");
+			echo "<script>console.log('employee_classes: ".$employee_classes_result->num_rows."')</script>";
+		}
+
+		$yes_no_array = array(
+			array("id" => 1, "name" => "Yes"),
+			array("id" => 2, "name" => "No")
+		);
+
+		$emp_status_array = array(
+			array("id" => 1, "name" => "Current Employee"),
+			array("id" => 2, "name" => "Retired Employee"),
+			array("id" => 3, "name" => "Transferred Employee")
+		);
+
+		$employee_number = $_GET['employee_number'];
+
+		$query = "SELECT * FROM employees WHERE employee_number = '$employee_number'";
+		$result = mysqli_query($db_connect, $query);
+
+		if ($result->num_rows > 0) {
+			$employee = mysqli_fetch_assoc($result);
+		} else {
+			echo "No employee found with the provided ID.";
+			exit;
+		}
+	?>
+
+	<style>
+        body {
+            font-family: Arial, sans-serif;
         }
-    } else {
-    	echo "Invalid Approach";
-    	exit();
-    }
+        .container {
+            margin-top: 20px;
+        }
+        .header, .content, .footer {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-row label {
+            font-weight: bold;
+        }
+        .boxed-text {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
 
-?>
-	<section class="side-menu fixed left">
-		<div class="top-sec">
-			<div class="dash_logo">
-				<img src="../images/logo.png">
-			</div>	<br> <br>		
-			<p>Employee Record System</p><br>
-			<p style="font-size:12px">Logged as <?php echo $username ?></p>
+<div class="container-fluid">
+    <div class="row ml-0 mr-0">
+    
+        <!-- Left sidebar for navigation -->
+        <section class="col-lg-2 col-md-3 left border-right m-0" >
+            <?php include("../inc/sidebar.php"); ?>
+        </section>
+
+        <!-- Main content area -->
+        <section class="col-md-8 col-lg-9 right border-left m-0">
+			<div class="header">
+				<h2>Edit Employee Details</h2>
 			</div>
-		<ul class="nav">
-			<li class="nav-item"><a href="../dashboard"><span class="nav-icon"><i class="fa fa-users"></i></span>All Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/current_employees.php"><span class="nav-icon"><i class="fa fa-check"></i></span>Current Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/past_employees.php"><span class="nav-icon"><i class="fa fa-times"></i></span>Past Employees</a></li>
-			<li class="nav-item"><a href="../dashboard/report_print.php"><span class="nav-icon"><i class="fa fa-print"></i></span>Employee reports</a></li>
-			<li class="nav-item current"><a href="../dashboard/add_employee.php"><span class="nav-icon"><i class="fa fa-user-plus"></i></span>Add Employee</a></li>
-			<?php if($usertype == "Admin"){ ?>
-				
-					<li class="nav-item"><a href="../backup/sys_backup.php"><span class="nav-icon"><i class="fa fa-database" aria-hidden="true"></i></span>Back up database</a></li>
-				<li class="nav-item"><a href="../dashboard/add_user.php"><span class="nav-icon"><i class="fa fa-user"></i></span>Add User</a></li>
-			<?php		} ?>
-			<li class="nav-item"><a href="../dashboard/settings.php"><span class="nav-icon"><i class="fa fa-cog"></i></span>Settings</a></li>
-			<li class="nav-item"><a href="../dashboard/logout.php"><span class="nav-icon"><i class="fa fa-sign-out"></i></span>Sign out</a></li>
-		</ul>
-	</section>
-	<section class="contentSection right clearfix">
-		<div class="displaySuccess"></div>
-		<div class="container">
-			<div class="wrapper add_employee clearfix">
-				<div class="section_title">Update Employee Records</div>
-				<form id="editemployee" class="clearfix" method="" action="">
-					<div class="section_subtitle">Personal Data</div>
-					<input type="hidden" name="record_id" value="<?php echo $record_id ?>">
-					<div class="input-box input-small left">
-						<label for="employee_id">Employee ID</label><br>
-						<input type="text" class="inputField emp_id" placeholder="Optional" name="employee_id" value="<?php echo $employee_id ?>">
-						<div class="error empiderror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="name_with_initials">Name with initials</label><br>
-						<input type="text" class="inputField name_with_initials" name="name_with_initials" value="<?php echo $name_with_initials ?>">
-						<div class="error initialserror"></div>
-					</div>
+			<div class="content">
+				<form action="update_employee.php" method="POST">
 					
-					<div class="input-box input-small left">
-						<label for="name_denoted_initials">Name denoted by initials</label><br>
-						<input type="text" class="inputField name_denoted_initials" name="name_denoted_initials" value="<?php echo $name_denoted_initials ?>">
-						<div class="error nameerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="date_of_birth">Date of Birth</label><br>
-						<input type="text"  class="datepicker inputField date_of_birth" name="date_of_birth"value="<?php echo $date_of_birth ?>">
-						<div class="error  date_of_birtherror"></div>
-					</div>
-					<div class="input-box input-small left">
-						<label for="id_number">National ID Number</label><br>
-						<input type="text" class="inputField id_number" name="id_number" value="<?php echo $id_number?>">
-						<div class="error idnumbererror"></div>
+					<h5>Personal Details</h5>
+					<div class="form-row">
+						<div class="col">
+							<label for="name_with_initials">Name with Initials:</label>
+							<input type="text" class="form-control" id="name_with_initials" name="name_with_initials" value="<?php echo $employee['name_with_initials']; ?>">
+						</div>
+						<div class="col">
+							<label for="name_denoted_initials">Name Denoted by Initials:</label>
+							<input type="text" class="form-control" id="name_denoted_initials" name="name_denoted_initials" value="<?php echo $employee['name_denoted_initials']; ?>">
+						</div>
 					</div>
 
-					<div class="input-box input-small right">
-						<label for="subject_to_desciplinary">Subect to desciplinary actions??</label><br>
-						<select class="inputField subject_to_desciplinary" name="subject_to_desciplinary" ><option value="<?php echo $subject_to_desciplinary ?>"><?php echo $subject_to_desciplinary ?></option>
-							<option value="YES">YES</option>
-							<option value="NO">NO</option>
-						</select>
-							<div class="error descerror"></div>
-					</div>
-
-					<div class="input-box input-small left">
-						<label for="email">Email Address</label><br>
-						<input type="text" class="inputField email" name="email" value="<?php echo $email ?>">
-						<div class="error emailerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="unit">Divisions of NRMC</label><br>
-						<select class="inputField unit" name="unit">
-		<option value="">-- Select Unit --</option>
- 		
-							<?php
-
-								require_once("conn.php");
-								$dbobj = new dbConnection();
-								$con = $dbobj->getCon();
-	
-								$sql = "SELECT DISTINCT unit_name FROM divisions_of_nrmc WHERE 1;";
-								$result = mysqli_query($con,$sql);
-								$nor = $result->num_rows;
-	
-								if($nor>0){
-								while($rec = mysqli_fetch_assoc($result)){
-										$unit_name = $rec["unit_name"];
-										echo("<option value='".$rec["unit_name"]."'>".$unit_name."</option>");
-													}
-												}	
-									mysqli_close($con);?>
-
-								</select>
-						<div class="error empuniterror"></div>
-					</div>
-					
-					<div class="input-box input-small left">
-						<label for="permanent_address">Permanent Address</label><br>
-						<input type="text" class="inputField permanent_address" name="permanent_address" value="<?php echo $permanent_address ?>">
-						<div class="error resaddresserror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="postal_address">Postal Address</label><br>
-						<input type="text" class="inputField postal_address" name="postal_address" value="<?php echo $postal_address ?>">
-						<div class="error reslocationerror"></div>
-					</div>
-					<div class="input-box input-small left">
-						<label for="phone_office">Phone office</label><br>
-						<input type="text" class="inputField phone_office" name="phone_office" value="<?php echo $phone_office ?>">
-						<div class="error phoneerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="phone_mobile">Phone mobile</label><br>
-						<input type="text" class="inputField phone_mobile" name="phone_mobile" value="<?php echo $phone_mobile ?>">
-						<div class="error phone_m_error"></div>
-					</div>
-					
-					<div class="input-box input-small left">
-						<label for="designation">Designation</label><br>
-						<select class="inputField designation" name="designation">
-							<option value="<?php  echo $designation ?>"><?php echo $designation ?></option>
-							<?php
-
-								require_once("conn.php");
-								$dbobj = new dbConnection();
-								$con = $dbobj->getCon();
-	
-								$sql = "SELECT DISTINCT position FROM post WHERE 1;";
-								$result = mysqli_query($con,$sql);
-								$nor = $result->num_rows;
-	
-								if($nor>0){
-								while($rec = mysqli_fetch_assoc($result)){
-									$position = $rec["position"];
-									echo("<option value='".$rec["position"]."'>".$position."</option>");
-										}
-								}	
-							mysqli_close($con);?>
-
-    						</select>
-						<div class="error designationerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="service_category">Service Category</label><br>
-						<input type="text" class="inputField service_category" name="service_category" value="<?php echo $service_category?>">
-						<div class="error service_caterror"></div>
-					</div>
-					
-					<div class="input-box input-small left">
-						<label for="class">Class/Grade</label><br>
-						<select class="inputField class" name="class">
-								<option value="<?php  echo $class?>"><?php echo $class ?></option>
-								<option value="sp">Special</option>
-           						<option value="I">I</option>
-           					 	<option value="II">II</option>
-            					<option value="III">III</option>
-           					 	<option value="I-II">I-II</option>
-           					 	<option value="I-III">I-III</option>
-           					 	<option value="2-I">2-I</option>
-           					 	<option value="2-II">2-II</option>
-            					<option value="3-I">3-I</option>
-            					<option value="3-II">3-II</option>
-            					<option value="3-III">3-III</option>
-							
-						</select>
-						<div class="error classerror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="s_scale">Salary scale</label><br>
-						<select class="inputField s_scale" name="s_scale">
-							<option value="<?php echo $s_scale ?>"><?php echo $s_scale ?></option>
-							<?php
-
-								require_once("conn.php");
-								$dbobj = new dbConnection();
-								$con = $dbobj->getCon();
-	
-								$sql = "SELECT DISTINCT s_scale FROM salary_scale WHERE 1;";
-								$result = mysqli_query($con,$sql);
-								$nor = $result->num_rows;
-	
-								if($nor>0){
-								while($rec = mysqli_fetch_assoc($result)){
-								$s_scale = $rec["s_scale"];
-								echo("<option value='".$rec["s_scale"]."'>".$s_scale."</option>");
+					<div class="form-row">
+						<div class="col">
+							<label for="employee_number">Employee Number:</label>
+							<input disabled type="text" class="form-control" id="employee_number" name="employee_number" value="<?php echo $employee['employee_number']; ?>">
+						</div>
+						<div class="col">
+							<label for="salary_scale">Salary Scale:</label>
+							<select class="form-select form-control" id="salary_scale" name="salary_scale">
+								<?php
+									if($salary_scales_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($salary_scales_result)){
+											if ($employee['scale'] == $rec['scale_name']){
+												echo("\t\t\t\t<option selected value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
+											} else {
+												echo("\t\t\t\t<option value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
+											}
+											
 										}
 									}	
-								mysqli_close($con);?>
-						</select>
-						<div class="error s_scaleerror"></div>
+								?>
+							</select>
+							<!-- <input type="text" class="form-control" id="salary_scale" name="salary_scale" value="<?php echo $employee['salary_scale']; ?>"> -->
+						</div>
+						<div class="col">
+							<label for="date_of_birth">Date of Birth:</label>
+							<input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo $employee['date_of_birth']; ?>">
+						</div>
+						<div class="col">
+							<label for="nic">National ID Number:</label>
+							<input type="text" class="form-control" id="nic" name="nic" value="<?php echo $employee['nic']; ?>">
+						</div>
+					</div>
+
+					<h5 class="mt-5">Contact Details</h5>
+					<div class="form-row">
+						<div class="col">
+							<label for="permanent_address">Permanent Address:</label>
+							<input type="text" class="form-control" id="permanent_address" name="permanent_address" value="<?php echo $employee['permanent_address']; ?>">
+						</div>
+						<div class="col">
+							<label for="postal_address">Postal Address:</label>
+							<input type="text" class="form-control" id="postal_address" name="postal_address" value="<?php echo $employee['postal_address']; ?>">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<label for="email">Email Address:</label>
+							<input type="email" class="form-control" id="email" name="email" value="<?php echo $employee['email']; ?>">
+						</div>
+						<div class="col">
+							<label for="phone_mobile">Phone Mobile:</label>
+							<input type="text" class="form-control" id="phone_mobile" name="phone_mobile" value="<?php echo $employee['phone_mobile']; ?>">
+						</div>
+						<div class="col">
+							<label for="phone_office">Phone Office:</label>
+							<input type="text" class="form-control" id="phone_office" name="phone_office" value="<?php echo $employee['phone_office']; ?>">
+						</div>
 					</div>
 					
 
-					<div class="input-box input-small left">
-						<label for="duties_assigned">Duties Assigned</label><br>
-						<input type="text" class="inputField duties_assigned" name="duties_assigned" value="<?php echo $duties_assigned ?>">
-						<div class="error duties_assignederror"></div>
+					<h5 class="mt-5">Institution-related Details</h5>
+					<div class="form-row">
+						<div class="col">
+							<label for="division_name">Division:</label>
+							<select class="form-select form-control" id="division_name" name="division_name">
+								<?php
+									if($divisions_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($divisions_result)){
+											if ($employee['division_name'] == $rec['division_name']){
+												echo("\t\t\t\t<option selected value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
+											} else {
+												echo("\t\t\t\t<option value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
+											}
+										}
+									}	
+								?>
+							</select>
+						</div>
+						<div class="col">
+							<label for="designation">Designation:</label>
+							<select class="form-select form-control" id="designation" name="designation">
+								<?php
+									if($positions_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($positions_result)){
+											if ($employee['position'] == $rec['position_name']){
+												echo("\t\t\t\t<option selected value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
+											} else {
+												echo("\t\t\t\t<option value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
+											}
+											
+										}
+									}	
+								?>
+							</select>
+						</div>
+						<div class="col">
+							<label for="class">Class/Grade:</label>
+							<select class="form-select form-control" id="class" name="class">
+								<?php
+									if($employee_classes_result->num_rows > 0){
+										while($rec = mysqli_fetch_assoc($employee_classes_result)){
+											if ($employee['class_name'] == $rec['class_name']){
+												echo("\t\t\t\t<option selected value='".$rec["class_id"]."'>".$rec["classn_name"]."</option>\n");
+											} else {
+												echo("\t\t\t\t<option value='".$rec["class_id"]."'>".$rec["class_name"]."</option>\n");
+											}
+											
+										}
+									}	
+								?>
+							</select>
+						</div>
 					</div>
 
-					<div class="input-box input-small right">
-						<label for="joined_public_date">Date employed</label><br>
-						<input type="text"  class="datepicker inputField joined_public_date" name="joined_public_date" value="<?php echo $joined_public_date ?>">
-						<div class="error dateemployederror"></div>
+					<div class="form-row">
+						<div class="col">
+							<label for="joined_public_date">Date Employed:</label>
+							<input type="date" class="form-control" id="joined_public_date" name="joined_public_date" value="<?php echo $employee['joined_public_date']; ?>">
+						</div>
+						<div class="col">
+							<label for="joined_nrmc">Joined Date to NRMC:</label>
+							<input type="date" class="form-control" id="joined_nrmc" name="joined_nrmc" value="<?php echo $employee['joined_nrmc']; ?>">
+						</div>
+						<div class="col">
+							<label for="status_date">Date of Retirement or Transferred:</label>
+							<input type="date" class="form-control" id="status_date" name="status_date" value="<?php echo $employee['status_date']; ?>">
+						</div>
 					</div>
-					<div class="input-box input-small left">
-						<label for="joined_etc">Date employed NRMC</label><br>
-						<input type="text" class="datepicker inputField joined_nrmc" name="joined_nrmc" value="<?php echo $joined_etc ?>">
-						<div class="error dateemployednrmcerror"></div>
+
+					<div class="form-row">
+						<div class="col">
+							<label for="subject_to_desciplinary">Subject to Disciplinary Actions:</label>
+							<select class="form-select form-control" id="subject_to_desciplinary" name="subject_to_desciplinary">
+								<?php
+									$value = ($employee['subject_to_desciplinary'] == "1") ? "Yes" : "No";
+									for ($i = 0; $i < count($yes_no_array); $i++) {
+										if ($value == $yes_no_array[$i]['name']){
+											echo "<option selected value='" . $yes_no_array[$i]['id'] . "'>" . $yes_no_array[$i]['name'] . "</option>";
+										} else {
+											echo "<option value='" . $yes_no_array[$i]['id'] . "'>" . $yes_no_array[$i]['name'] . "</option>";
+										}
+									}
+								?>
+							</select>
+						</div>
+						<div class="col">
+							<label for="appointment">Is Appointment Permanent:</label>
+							<select class="form-select form-control" id="appointment" name="appointment">
+								<?php
+									$value = ($employee['appointment'] == "1") ? "Yes" : "No";
+									for ($i = 0; $i < count($yes_no_array); $i++) {
+										if ($value == $yes_no_array[$i]['name']){
+											echo "<option selected value='" . $yes_no_array[$i]['id'] . "'>" . $yes_no_array[$i]['name'] . "</option>";
+										} else {
+											echo "<option value='" . $yes_no_array[$i]['id'] . "'>" . $yes_no_array[$i]['name'] . "</option>";
+										}
+									}
+								?>
+							</select>
+						</div>
+						<div class="col">
+							<label for="status">Employment Status:</label>
+							<select class="form-select form-control" id="status" name="status">
+								<?php
+									for ($i = 0; $i < count($emp_status_array); $i++) {
+										if ($employee['status'] == $emp_status_array[$i]['name']){
+											echo "<option selected value='" . $emp_status_array[$i]['id'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
+										} else {
+											echo "<option value='" . $emp_status_array[$i]['id'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
+										}
+									}
+								?>
+							</select>
+
+						</div>
 					</div>
-					<div class="input-box input-small right">
-						<label for="appointment">Is appointment permanent</label><br>
-						<select class="inputField appointment" name="appointment">
-							<option value="<?php echo $appointment ?>"><?php echo $appointment ?></option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
-						</select>
-						<div class="error appointmenterror"></div>
+
+					
+					<div class="form-row">
+						<div class="col">
+							<label for="service_category">Service Category:</label>
+							<input type="text" class="form-control" id="service_category" name="service_category" value="<?php echo $employee['service_category']; ?>">
+						</div>
+						<div class="col">
+							<label for="duties_assigned">Duties Assigned:</label>
+							<input type="text" class="form-control" id="duties_assigned" name="duties_assigned" value="<?php echo $employee['duties_assigned']; ?>">
+						</div>
 					</div>
-					<div class="input-box input-small left">
-						<label for="status">Employment status</label><br>
-						<select class="inputField status" name="status">
-							<option value="<?php echo $status ?>"><?php echo $status ?></option>
-							<option value="Current Employee">Current Employee</option>
-							<option value="Retired Employee">Retired Employee</option>
-							<option value="Transferred Employee">Transferred Employee</option>
-						</select>
-						<div class="error empstatuserror"></div>
-					</div>
-					<div class="input-box input-small right">
-						<label for="status_date">Date of retirement or transfered</label><br>
-						<input type="text" class="datepicker inputField status_date" name="status_date" placeholder="select date if transfered or Retired" value="<?php $status_date ?>">
-						<div class="error datestatuschanged"></div>
-					</div>
-					<div class="input-box">
-						<button type="submit" class="submitField">Update record</button>
-					</div>
+
+						<button type="submit" class="btn btn-primary mt-3">Save Changes</button>
 				</form>
 			</div>
-		</div>
-	</section>
-<script type="text/javascript" src="../js/global.js"></script>
-</body>
-</html>
+		</section>
+            
+    </div>
+
+
+
+<?php
+	include("../inc/footer.php");
+?>

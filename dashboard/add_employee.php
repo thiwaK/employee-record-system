@@ -56,7 +56,7 @@
 				<div class="displaySuccess"></div>
 				<div class="h2">Add Employee</div>
 
-				<form id="addemployee" class="clearfix" method="POST" action="addemployee.php">
+				<form id="addemployee" class="clearfix" method="POST" action="">
 					<h5 class="mt-5">Personal Details</h5>
 					<hr>
 					
@@ -241,58 +241,32 @@
 
 			</div>
 		</section>
-
-		<!-- Container for displaying messages -->
-		<div class="card text-center position-fixed top-50 start-50 translate-middle text-white mb-3" id="messageContainer" style="display: none; ">
-		<div class="card-header" id="messageHead"></div>
-		<div class="card-body">
-			<h5 class="card-title" id="messageTitle">Success card title</h5>
-			<span class="card-text" id="messageContent"></span>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		</div>
-
-	
 	</div>
+
+	<?php include("../inc/notification_model.php"); ?>
+
 
 
 <script>
 
-	
+	Notify = new Notify();
+
 	document.getElementById('addemployee').addEventListener('submit', function(event) {
 		event.preventDefault();
 		
 		let formData = new FormData(this);
-		fetch('addemployee.php', {
+		fetch('../API/add_employee.php', {
 			method: 'POST',
 			body: formData
 		})
 		.then(response => response.json())
 		.then(data => {
-			let messageContainer = document.getElementById('messageContainer');
-			let messageContent = document.getElementById('messageContent');
-			let messageHead = document.getElementById('messageHead');
-			let messageTitle = document.getElementById('messageTitle');
-
+			
 			if (data.response === 100) {
-				messageContainer.classList.add('alert-success');
-				messageContent.textContent = data.message;
-				messageTitle.textContent = "Successeded";
+				Notify.Success("Success", "New employee profile created successfully")
 			} else {
-				messageTitle.textContent = "Failed";
-				messageContainer.classList.add('alert-danger');
-				messageContent.textContent = data.message;
+				Notify.Warn("Error", "Failed to create new employee profile. <strong>" + data.message + "</strong>")
 			}
-
-			messageContainer.style.display = 'block';
-			setTimeout(() => {
-				
-				messageContainer.style.display = 'none';
-				messageContainer.classList.remove('alert-success', 'alert-danger');
-				
-			}, 3000);
 		})
 		.catch(error => {
 			console.error('Error:', error);
