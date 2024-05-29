@@ -22,9 +22,9 @@
 					</div>
 				</a>
                 <ul class="nav collapse ml-4" id="employeesSubMenu" style="margin-top: 0;">
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/all_employees.php"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/current_employees.php"><!--span class="nav-icon"><i class="fa fa-check"></i></span -->Current Employees</a></li>
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/past_employees.php"><!--span class="nav-icon"><i class="fa fa-times"></i></span -->Past Employees</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/employees.php?q=all"><!-- span class="nav-icon"><i class="fa fa-users"></i></span -->All Employees</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/employees.php?q=current"><!--span class="nav-icon"><i class="fa fa-check"></i></span -->Current Employees</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/employees.php?q=past"><!--span class="nav-icon"><i class="fa fa-times"></i></span -->Past Employees</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/report_print.php"><!--span class="nav-icon"><i class="fa fa-print"></i></span -->Employee Reports</a></li>
                     <?php if($usertype == "Admin" || $usertype == "superuser") {?>
                         <li class="nav-item submenu"><a class="nav-link" href="../dashboard/add_employee.php"><!-- span class="nav-icon"><i class="fa fa-user-plus"></i></span -->Add Employee</a></li>
@@ -96,12 +96,15 @@
 		document.addEventListener("DOMContentLoaded", function() {
 			var path = window.location.pathname;
 			path = path.replace(/\/$/, "");
-			var path_file = getFileName(path).replace(/\s/g, "");
+			loc_array = window.location.href.split('/')
+
+			// var path_file = getFileName(path).replace(/\s/g, "");
+			var path_file = loc_array[loc_array.length - 1];
 
 			var navLinks = document.querySelectorAll(".nav-link");
 			// console.log("Current Path:" + path_file);
 
-			if (path_file === '' || path_file === ' ') {
+			if(path_file === ''){
 				return;
 			}
 
@@ -109,7 +112,9 @@
 				var href = navLink.getAttribute("href");
 				var href_file = getFileName(href);
 
-				if (path_file === href_file) {
+				console.log(href_file);
+
+				if (href_file.includes(path_file)) {
 					// console.log("Path matched:" + href_file);
 					navLink.parentNode.classList.add('show'); // Active link indicator
 					var parentLi = navLink.parentNode.parentNode;

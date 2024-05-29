@@ -114,7 +114,7 @@
 				<h2>Edit Employee Details</h2>
 			</div>
 			<div class="content">
-				<form action="update_employee.php" method="POST">
+				<form action="update_employee.php" method="POST" id="editemployee">
 					
 					<h5>Personal Details</h5>
 					<div class="form-row">
@@ -131,7 +131,7 @@
 					<div class="form-row">
 						<div class="col">
 							<label for="employee_number">Employee Number:</label>
-							<input disabled type="text" class="form-control" id="employee_number" name="employee_number" value="<?php echo $employee['employee_number']; ?>">
+							<input readonly type="text" class="form-control" id="employee_number" name="employee_number" value="<?php echo $employee['employee_number']; ?>">
 						</div>
 						<div class="col">
 							<label for="salary_scale">Salary Scale:</label>
@@ -317,12 +317,43 @@
 						</div>
 					</div>
 
-						<button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+						<button type="submit" class="btn btn-primary mt-3">Update</button>
 				</form>
 			</div>
 		</section>
             
     </div>
+
+	<?php include("../inc/notification_model.php");?>
+
+	<script>
+
+		Notify = new Notify();
+
+		document.getElementById('editemployee').addEventListener('submit', function(event) {
+			event.preventDefault();
+			
+			let formData = new FormData(this);
+			fetch('../API/update_employee.php', {
+				method: 'POST',
+				body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+				
+				if (data.response === 100) {
+					Notify.Success("Success", "Employee profile successfully updated")
+				} else {
+					Notify.Warn("Error", "Failed to update employee profile. <strong>" + data.message + "</strong>")
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		});
+
+
+	</script>
 
 
 
