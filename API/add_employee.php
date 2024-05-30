@@ -30,6 +30,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status_date = mysqli_real_escape_string($db_connect, $_POST['status_date']);
     $subject_to_desciplinary = mysqli_real_escape_string($db_connect, $_POST['subject_to_desciplinary']);
 
+
+
+    $data_all = array(
+        "employee_number" => $employee_number,
+        "name_with_initials" => $name_with_initials,
+        "name_denoted_initials" => $name_denoted_initials,
+        "date_of_birth" => $date_of_birth,
+        "nic" => $nic,
+        "permanent_address" => $permanent_address,
+        "postal_address" => $postal_address,
+        "email" => $email,
+        "phone_office" => $phone_office,
+        "phone_mobile" => $phone_mobile,
+        "salary_scale" => $salary_scale,
+        "division_name" => $division_name,
+        "appointment" => $appointment,
+        "service_category" => $service_category,
+        "employee_class" => $employee_class,
+        "designation" => $designation,
+        "duties_assigned" => $duties_assigned,
+        "joined_public_date" => $joined_public_date,
+        "joined_nrmc" => $joined_nrmc,
+        "status" => $status,
+        "status_date" => $status_date,
+        "subject_to_desciplinary" => $subject_to_desciplinary
+    );
+    
+    // $json_data = json_encode($data_all);
+    
+    // echo $json_data;
+
     // Check if employee already exists
     $emp_numb = mysqli_query($db_connect, "SELECT employee_number FROM employees WHERE employee_number = '$employee_number'");
 

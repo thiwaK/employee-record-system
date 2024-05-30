@@ -2,17 +2,46 @@
 
             <div class="row">
 				<div class="wrapper employee_list clearfix">
-					<div class="section_title">All Current Employees</div>
+					<h2 id="pg_header" class="header"></h2>
 					
 					<div class="m-2 align-items-center">
-						<!-- <div class="d-inline-block">
-							<form id="empFilter" method="post" action="" class="form-inline">
-								<div class="form-group">
-									<input class="form-control" type="text" placeholder="Search by Name, Designation, Division" style="width: 350px;" onkeyup="searchFilter()">
-								</div>
-							</form>
-						</div> -->
-						
+
+                        <!-- Search -->
+                        <?php
+                            $result = $db_connect->query("SHOW TABLES LIKE 'employees'");
+                            if ($result) {
+                                $employee_fields_result = mysqli_query($db_connect, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'employees' AND TABLE_SCHEMA = DATABASE() ORDER BY COLUMN_NAME ASC;");
+                            } else {
+                                $employee_fields_result = array();
+                            }
+                        ?>
+
+                        <div class="justify-content-left">
+                        <form class="form-inline" id="search_form">
+                            <div class="form-group">
+                                <input class="form-control mr-2" type="search" id="search" placeholder="Search" aria-label="Search">
+                                <select class="form-select form-control mr-2" name="search_option" id="search_option">
+                                    <option value="all">All</option>
+                                    <?php
+                                        if($employee_fields_result->num_rows > 0){
+                                            $count = 0;
+                                            while($rec = mysqli_fetch_assoc($employee_fields_result)){
+                                                $columnName = $rec["COLUMN_NAME"];
+                                                $columnName = str_replace('_', ' ', $columnName);
+                                                $columnName = ucwords($columnName);
+                                                echo("<option value='".$rec["COLUMN_NAME"]."'>".$columnName."</option>\n");
+                                                $count++;
+                                            }
+                                        }	
+                                    ?>
+                                </select>
+                                <button class="btn btn-outline-info" type="submit" id="saerch_button">Search</button>
+                            </div>    
+                        </form>
+                        </div>
+
+                        <!-- End Search -->
+
 						<!-- <div class="d-inline-block">
 						<form id="empFilter" method="post" action="" class="form-inline">
 							<div class="form-group">
@@ -28,7 +57,7 @@
 						
 					<table class="table table-hover table-sm">
                     <thead class="thead-dark">
-                        <th class="emp_id">Employee Number</th>
+                        <th class="emp_id">E-Number</th>
                         <th class="">Name</th>
                         <th class="">Designation</th>
                         <th class="">Unit</th>
@@ -36,30 +65,8 @@
                         <!-- <th class="">Action</th> -->
                         </tr>
                     </thead>
-                    <tbody id="displayempList" class="">
-                        <?php
-                        if($getempcount >= 1 ) {
-                            while($fetch = mysqli_fetch_assoc($getemp)) {
-                                // $id = $fetch['id'];
-                                $emp_id = $fetch['employee_number'];
-                                $name_with_initials = $fetch['name_with_initials'];
-                                $designation = $fetch['designation'];
-                                $division = $fetch['division_name'];
-                                $service_category = $fetch['service_category'];
-
-                                echo '<tr class="emp_row" data-id="' . $emp_id . '">';
-                                    echo '<td class="emp_id">' . $emp_id . '</td>';
-                                    echo '<td class="">' . $name_with_initials . '</td>';
-                                    echo '<td class="">' . $designation . '</td>';
-                                    echo '<td class="">' . $division . '</td>';
-                                    echo '<td class="">' . $service_category . '</td>';
-                                echo '</tr>';
-                            }
-                            echo $pagination->createLinks();
-                        } else {
-                            echo '<tr class="emp_item"><td colspan="6"> No employee record found </td></tr>';
-                        }
-                        ?>
+                    <tbody id="employeeTableBody" class="">
+                        
                     </tbody>
                 </table>
 				</div>

@@ -21,15 +21,6 @@ if ($result->num_rows > 0) {
         .container {
             margin-top: 20px;
         }
-        .header, .content, .footer {
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .header {
-            margin-bottom: 20px;
-        }
         .footer {
             margin-top: 20px;
             text-align: right;

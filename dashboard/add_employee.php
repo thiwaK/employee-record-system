@@ -1,7 +1,7 @@
 <?php
 	include("../inc/header.php");
 	include('../phpclasses/pagination.php');
-
+	include("../inc/db_connect.php");
 	
 	$result = $db_connect->query("SHOW TABLES LIKE 'salary_scales'");
 	if ($result->num_rows <= 0) {
@@ -55,7 +55,6 @@
 			<div class="row">
 				<div class="displaySuccess"></div>
 				<div class="h2">Add Employee</div>
-
 				<form id="addemployee" class="clearfix" method="POST" action="">
 					<h5 class="mt-5">Personal Details</h5>
 					<hr>
@@ -122,7 +121,7 @@
 								<?php
 									if($salary_scales_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($salary_scales_result)){
-											echo("<option value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
+											echo("<option value='".$rec["scale_name"]."'>".$rec["scale_name"]."</option>\n");
 										}
 									}	
 								?>
@@ -141,7 +140,7 @@
 								<?php
 									if($divisions_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($divisions_result)){
-												echo("\t\t\t\t<option value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
+												echo("\t\t\t\t<option value='".$rec["division_name"]."'>".$rec["division_name"]."</option>\n");
 										}
 									}	
 								?>
@@ -155,7 +154,7 @@
 								<?php
 									if($positions_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($positions_result)){
-											echo("<option value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
+											echo("<option value='".$rec["position_name"]."'>".$rec["position_name"]."</option>\n");
 										}
 									}
 								?>
@@ -169,11 +168,10 @@
 								<?php
 									if($employee_classes_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($employee_classes_result)){
-											echo("<option value='".$rec["class_id"]."'>".$rec["class_name"]."</option>\n");
+											echo("<option value='".$rec["class_name"]."'>".$rec["class_name"]."</option>\n");
 										}
 									}	
 								?>
-
 							</select>
 						</div>
 
@@ -200,8 +198,8 @@
 							<label for="subject_to_desciplinary">Subject to Desciplinary Actions?</label>
 							<select class="form-select form-control " name="subject_to_desciplinary" >
 								<option value="">Choose...</option>
-								<option value="YES">YES</option>
-								<option value="NO">NO</option>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
 							</select>
 						</div>
 						<div class="col">
@@ -236,9 +234,6 @@
 					
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
-
-				
-
 			</div>
 		</section>
 	</div>

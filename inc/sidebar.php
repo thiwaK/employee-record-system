@@ -112,7 +112,7 @@
 				var href = navLink.getAttribute("href");
 				var href_file = getFileName(href);
 
-				console.log(href_file);
+				// console.log(href_file);
 
 				if (href_file.includes(path_file)) {
 					// console.log("Path matched:" + href_file);
