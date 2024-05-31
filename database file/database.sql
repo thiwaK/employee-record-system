@@ -78,11 +78,11 @@ CREATE TABLE `employees` (
   `salary_scale` varchar(10) NOT NULL, -- Table Precence
   `phone_office` int(12) NOT NULL,
   `phone_mobile` int(11) NOT NULL,
-  `division_name` varchar(60) NOT NULL, -- Table Precence
+  `division_name` varchar(100) NOT NULL, -- Table Precence
   `service_category` varchar(20) NOT NULL,
   `class` varchar(25) NOT NULL,
-  `designation` varchar(25) NOT NULL,
-  `duties_assigned` varchar(50) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `duties_assigned` varchar(500) NOT NULL,
   `joined_public_date` date NOT NULL,
   `joined_nrmc` date NOT NULL,
   `status` varchar(25) NOT NULL,
@@ -218,7 +218,6 @@ INSERT INTO `positions` (`position_name`) VALUES
 INSERT INTO `employees` 
 (`employee_number`, `name_with_initials`,               `name_denoted_initials`, `date_of_birth`, `nic`,        `email`,                          `appointment`, `salary_scale`, `permanent_address`, `postal_address`, `phone_office`, `phone_mobile`, `division_name`,                       `service_category`, `class`, `designation`, `duties_assigned`, `joined_public_date`, `joined_nrmc`, `status`,           `status_date`, `subject_to_desciplinary`) VALUES \
 ('TK-0001',         'M.W. Thiwanka Kaushal Munasinghe', 'M... W...',             '1999-06-19',    '991010101v', 'thiwanka.kaushal.mob@gmail.com', '0',           'SP' ,          'Kurunegala',        'Kurunegala',     '777123456',    '777123456',    'Land Use Planning & Geo-Informatics', 'Intern',           'I',     'Intern',      'Developer',       '2024-04-29',         '2024-04-29',  'Current Employee', '2024-04-29',  '0');
-
 
 INSERT INTO `users` (`username`, `password`, `accounttype`, `employee_number`) VALUES
 ('TK', 'WhoCares', 'Admin', 'TK-0001')

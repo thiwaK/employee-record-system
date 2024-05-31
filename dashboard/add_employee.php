@@ -135,7 +135,7 @@
 					<div class="form-row">
 						<div class="col">
 							<label  for="division">Division</label>
-							<select class="form-select form-control " id="division" name="division_name">
+							<select class="form-select form-control" name="division_name">
 							<option selected>Choose...</option>
 								<?php
 									if($divisions_result->num_rows > 0){

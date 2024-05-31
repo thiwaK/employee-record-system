@@ -1,5 +1,5 @@
 
-
+<?php include("db_connect.php"); ?>
             <div class="row">
 				<div class="wrapper employee_list clearfix">
 					<h2 id="pg_header" class="header"></h2>
@@ -60,7 +60,7 @@
                         <th class="emp_id">E-Number</th>
                         <th class="">Name</th>
                         <th class="">Designation</th>
-                        <th class="">Unit</th>
+                        <th class="">Division</th>
                         <th class="">Service Category</th>
                         <!-- <th class="">Action</th> -->
                         </tr>

@@ -1,5 +1,6 @@
 <?php
 	include("../inc/header.php");
+	include("../inc/db_connect.php");
 	
 	$result = $db_connect->query("SHOW TABLES LIKE 'employees'");
 	if ($result->num_rows <= 0) {

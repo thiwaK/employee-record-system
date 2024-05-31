@@ -58,7 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
     
     // $json_data = json_encode($data_all);
-    
     // echo $json_data;
 
     // Check if employee already exists
@@ -71,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt = $db_connect->prepare($sql);
         $stmt->bind_param(
-            "sssssssssisisssssssssi",
+            "sssssssssssssssssssssi",
             $employee_number,
             $name_with_initials,
             $name_denoted_initials,

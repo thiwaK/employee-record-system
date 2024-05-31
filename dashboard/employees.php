@@ -1,6 +1,7 @@
 <?php
 	include("../inc/header.php");
     include('../phpclasses/pagination.php');
+	include("../inc/db_connect.php");
 
     $limit = 10;
 	$getempcount = 0;

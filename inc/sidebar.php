@@ -1,4 +1,8 @@
-    <div class="sidebar">
+<?php 
+// include("validate_login.php");
+include("db_connect.php");
+?>
+	<div class="sidebar">
 		<div class="card bg-transparent text-center border-0">
 			<img class="card-img-top mx-auto mt-3" style="max-width: 50%;" src="../images/logo.png" alt="NRMC Logo">
 			<div class="card-body">
