@@ -1,6 +1,6 @@
 <?php
 	include("../inc/header.php");
-    include('../phpclasses/pagination.php');
+    // include('../phpclasses/pagination.php');
 	include("../inc/db_connect.php");
 
     $limit = 10;
@@ -26,12 +26,12 @@
 
 		<!-- Main content area -->
 		<section class="col-md-8 col-lg-9 right border-left m-0">
-			<?php include("../inc/employee_model.php"); ?>
+			<?php include("../templates/employee.php"); ?>
 		</section>
 	</div>
 
 	<?php include("../inc/context_menu.php"); ?>
-    <?php include("../inc/employee_context_model.php"); ?>
+    <?php include("../templates/employee_context.php"); ?>
 	<?php include("../inc/notification_model.php"); ?>
 
 
@@ -51,6 +51,7 @@
 		const params = new URLSearchParams(urlObject.search);
 		const qValue = params.get('q');
 
+		
 		if (qValue.toLowerCase() == 'all' && pgHeaderElement){
 			pgHeaderElement.textContent = 'All Employees';
 		} else if (qValue.toLowerCase() == 'current' && pgHeaderElement){

@@ -68,21 +68,25 @@ if ($result->num_rows > 0) {
 					</div>
 
                     <div class="form-row">
-						<div class="col">
-                            <label>Employee Number:</label>
+                        <div class="col">
+                            <label>Employee Number</label>
                             <div class="boxed-text"><?php echo $employee['employee_number']; ?></div>
+						</div>
+                        <div class="col">
+                            <label>National ID Number:</label>
+                            <div class="boxed-text"><?php echo $employee['nic']; ?></div>
                         </div>
                         <div class="col">
                             <label>Date of Birth:</label>
                             <div class="boxed-text"><?php echo $employee['date_of_birth']; ?></div>
                         </div>
                         <div class="col">
-                            <label>National ID Number:</label>
-                            <div class="boxed-text"><?php echo $employee['nic']; ?></div>
-                        </div>
+                            <label>Salary Scale</label>
+                            <div class="boxed-text"><?php echo $employee['salary_scale']; ?></div>
+						</div>
                     </div>
 
-                    <div class="form-row">
+                    <!-- <div class="form-row">
 						<div class="col">
                             <label>Employee Number</label>
                             <div class="boxed-text"><?php echo $employee['employee_number']; ?></div>
@@ -91,7 +95,7 @@ if ($result->num_rows > 0) {
                             <label>Salary Scale</label>
                             <div class="boxed-text"><?php echo $employee['salary_scale']; ?></div>
 						</div>
-					</div>
+					</div> -->
 
                     <h5 class="mt-5">Contact Details</h5>
                     <div class="form-row">

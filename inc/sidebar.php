@@ -4,7 +4,7 @@ include("db_connect.php");
 ?>
 	<div class="sidebar">
 		<div class="card bg-transparent text-center border-0">
-			<img class="card-img-top mx-auto mt-3" style="max-width: 50%;" src="../images/logo.png" alt="NRMC Logo">
+			<img class="card-img-top mx-auto mt-3" style="max-width: 50%;" src="../resources/images/logo.png" alt="NRMC Logo">
 			<div class="card-body">
 				<h5 class="card-title">Employee Record System</h5>
 				<p class="card-text">Logged in as <?php echo $usertype; ?></p>
@@ -19,7 +19,7 @@ include("db_connect.php");
 
             <!-- Employees  -->
             <li class="nav-item">
-				<a class="nav-link dropdown-toggle" href="#employeesSubMenu" aria-controls="employeesSubMenu" role="button" data-toggle="collapse" aria-expanded="true">
+				<a class="nav-link dropdown-toggle" href="#employeesSubMenu" aria-controls="employeesSubMenu" role="button" data-toggle="collapse" aria-expanded="false">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon"><i class="fa fa-address-card"></i></span>
 						<span class="nav-link-text ps-1">Employees</span>
@@ -47,18 +47,39 @@ include("db_connect.php");
                 <ul class="nav collapse ml-4 " id="divisionsSubMenu" style="margin-top: 0;">
 
 					<?php
-					$get_divisions = mysqli_query($db_connect, "SELECT division_name FROM divisions ORDER BY division_id");
-					$divisions_count = mysqli_num_rows($get_divisions);
+						$get_divisions = mysqli_query($db_connect, "SELECT division_name FROM divisions ORDER BY division_id");
+						$divisions_count = mysqli_num_rows($get_divisions);
 
-					if($divisions_count >= 1 ) {
-						while($fetch = mysqli_fetch_assoc($get_divisions)) {
-							$division_name = $fetch['division_name'];
-							echo '<li class="nav-item submenu"><a class="nav-link" href="../dashboard/' . $division_name . '">'. $division_name .'</a></li>';
+						if($divisions_count >= 1 ) {
+							while($fetch = mysqli_fetch_assoc($get_divisions)) {
+								$division_name = $fetch['division_name'];
+								$words = explode(' ', $division_name);
+								$firstLetters = array_map(function($word) {
+									return $word[0];
+								}, $words);
+								$href_ = implode('', $firstLetters);
+								$href_ = str_replace('&', '_', $href_);
+								echo '<li class="nav-item submenu"><a class="nav-link" href="../dashboard/divisions.php?q=' . $href_ . '">'. $division_name .'</a></li>';
+							}
 						}
-					}
 
 					?>
                 </ul>
+            </li>
+
+			<!-- Users -->
+            <li class="nav-item">
+				<a class="nav-link dropdown-toggle" href="#usersSubMenu" aria-controls="usersSubMenu" role="button" data-toggle="collapse" aria-expanded="false">
+					<div class="d-flex align-items-center">
+						<span class="nav-link-icon"><i class="fa fa-users"></i></span>
+						<span class="nav-link-text ps-1">Users</span>
+					</div>
+				</a>
+                <ul class="nav collapse ml-4" id="usersSubMenu" style="margin-top: 0;">
+					<li class="nav-item submenu"><a class="nav-link" href="../dashboard/users.php?q=all_users"><!-- span class="nav-icon"><i class="fa fa-user"></i></span -->View Users</a></li>
+                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/add_user.php"><!-- span class="nav-icon"><i class="fa fa-user"></i></span -->Add User</a></li>
+					<!--  -->
+				</ul>
             </li>
 
             <!-- Preferences -->
@@ -71,7 +92,6 @@ include("db_connect.php");
 				</a>
                 <ul class="nav collapse ml-4" id="preferencesSubMenu" style="margin-top: 0;">
                     <li class="nav-item submenu"><a class="nav-link" href="../backup/sys_backup.php"><!-- span class="nav-icon"><i class="fa fa-database" aria-hidden="true"></i></span -->Backup Database</a></li>
-                    <li class="nav-item submenu"><a class="nav-link" href="../dashboard/add_user.php"><!-- span class="nav-icon"><i class="fa fa-user"></i></span -->Add User</a></li>
                     <li class="nav-item submenu"><a class="nav-link" href="../dashboard/settings.php"><!-- span class="nav-icon"><i class="fa fa-cog"></i></span -->Settings</a></li>
 					<!--  -->
 				</ul>
@@ -116,10 +136,10 @@ include("db_connect.php");
 				var href = navLink.getAttribute("href");
 				var href_file = getFileName(href);
 
-				// console.log(href_file);
+				// console.log("Sidebar", href_file);
 
-				if (href_file.includes(path_file)) {
-					// console.log("Path matched:" + href_file);
+				if (href_file == path_file) {
+					// console.log("Path matched:" + href_file + " | with:" + path_file);
 					navLink.parentNode.classList.add('show'); // Active link indicator
 					var parentLi = navLink.parentNode.parentNode;
 					// console.log("Parent: " + parentLi.innerHTML);

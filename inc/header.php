@@ -8,19 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/ERS/css/bootstrap.min.css">
-	<link href="/ERS/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/ERS/resources/css/bootstrap.min.css">
+	<link href="/ERS/resources/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> -->
     
-    <link href="/ERS/css/theme.css" rel="stylesheet" id="style-default">
-    <link rel="stylesheet" type="text/css" href="/ERS/css/style.css"/>
+    <link href="/ERS/resources/css/theme.css" rel="stylesheet" id="style-default">
+    <link rel="stylesheet" type="text/css" href="/ERS/resources/css/style.css"/>
 
-    <script src="/ERS/js/jquery.slim.min.js"></script>
-    <script src="/ERS/js/bootstrap.bundle.min.js"></script>
+    <script src="/ERS/resources/js/jquery.slim.min.js"></script>
+    <script src="/ERS/resources/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <body>	

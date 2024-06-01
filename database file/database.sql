@@ -212,6 +212,7 @@ INSERT INTO `positions` (`position_name`) VALUES
 ( 'Contract Labourer '),
 ( 'Officer in charge(Women Extension)'),
 ( 'Officer in charge(optional food crops)'),
+( 'Division Head'),
 ( 'Intern');
 
 

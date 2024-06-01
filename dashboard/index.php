@@ -1,6 +1,6 @@
 <?php
 	include("../inc/header.php");
-	include('../phpclasses/pagination.php');
+	// include('../phpclasses/pagination.php');
 	include("../inc/db_connect.php");
 
 	$limit = 10;         
@@ -47,7 +47,7 @@
 			SELECT 
 				division_name, 
 				COUNT(employee_number) AS employee_count,
-				GROUP_CONCAT(CASE WHEN designation = 'Additional Director'  THEN name_with_initials END SEPARATOR ', ') AS additional_directors
+				GROUP_CONCAT(CASE WHEN designation = 'Division Head'  THEN name_with_initials END SEPARATOR ', ') AS division_head
 			FROM employees
 			WHERE status = 'Current Employee'
 			GROUP BY division_name
@@ -58,7 +58,7 @@
 			while ($row = $result1->fetch_assoc()) {
 				$divisions[$row['division_name']] = [
 					'employee_count' => $row['employee_count'],
-					'additional_directors' => $row['additional_directors'],
+					'division_head' => $row['division_head'],
 					'designated_employees' => []
 				];
 			}
@@ -105,6 +105,7 @@
 				<div class="col">
 					<div class="card" style="height: 100px;">
 						<div class="card-body">
+						<a href="../dashboard/employees.php?q=all" class="card-body-link">
 							<div class="row d-flex">
 								<div class="col-3">
 									<span class="nav-link-icon" style="font-size: 40px;"><i class="fa fa-address-card"></i></span>
@@ -114,18 +115,19 @@
 									<div class="row">
 										<div class="col-5">
 											<?php 
-												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Active <div class="card-text badge badge-secondary">' . $activeEmployeeCount . '</div></span></div>';
+												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Active <div class="card-text badge badge-dark">' . $activeEmployeeCount . '</div></span></div>';
 											?>
 										</div>
 										<div class="col-5">
 											<?php 
-												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Other <div class="card-text badge badge-secondary">' . $otherEmployeeCount . '</div></span></div>';
+												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Other <div class="card-text badge badge-dark">' . $otherEmployeeCount . '</div></span></div>';
 											?>
 										</div>
 		
 									</div>							
 								</div>
-							</div>	
+							</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -133,7 +135,7 @@
 				<div class="col">
 					<div class="card">
 						<div class="card-body">
-
+							<a href="../dashboard/divisions.php?q=A" class="card-body-link">
 							<div class="row">
 								<div class="col-3">
 									<span class="nav-link-icon" style="font-size: 40px;"><i class="fa fa-building"></i></span>
@@ -141,10 +143,14 @@
 								<div class="col-9">
 									<h2 class="card-title">Divisions</h2>
 									<?php 
-									echo '<p class="card-text font-weight-bold"><span id="divisionsCount">' . $divisionCount . '</span></p>';
+										echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Total <div class="card-text badge badge-dark">' . $divisionCount . '</div></span></div>';
+									?>
+									<?php 
+									#echo '<p class="card-text font-weight-bold"><span id="divisionsCount">' . $divisionCount . '</span></p>';
 									?>
 								</div>
-							</div>	
+							</div>
+							</a>	
 						</div>
 					</div>
 				</div>
@@ -152,6 +158,7 @@
 				<div class="col">
 					<div class="card">
 						<div class="card-body">
+							<a href="../dashboard/users.php?q=all_users" class="card-body-link">
 							<div class="row">
 								<div class="col-3">
 									<span class="nav-link-icon" style="font-size: 40px;"><i class="fa fa-users"></i></span>
@@ -164,18 +171,19 @@
 									<div class="row">
 										<div class="col-5">
 											<?php 
-												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Admins <div class="card-text badge badge-secondary">' . $AdminUserCount . '</div></span></div>';
+												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Admins <div class="card-text badge badge-dark">' . $AdminUserCount . '</div></span></div>';
 											?>
 										</div>
 										<div class="col-5">
 											<?php 
-												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Other <div class="card-text badge badge-secondary">' . $generalUserCount . '</div></span></div>';
+												echo '<div class="card-text badge badge-primary" style="background-color:var(--icon)">Other <div class="card-text badge badge-dark">' . $generalUserCount . '</div></span></div>';
 											?>
 										</div>
 		
 									</div>
 								</div>
-							</div>	
+							</div>
+							</a>	
 						</div>
 					</div>
 				</div>
@@ -192,8 +200,8 @@
 									<tr>
 										<th>Division</th>
 										<th>Number of Employees</th>
-										<th>Additional Directors</th>
-										<th>Designated Employees</th>
+										<th>Heads</th>
+										<th>Designations</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -202,7 +210,7 @@
 											echo '<tr>';
 											echo '<td>' . $division_name . '</td>';
 											echo '<td>' . $division['employee_count'] . '</td>';
-											echo '<td>' . $division['additional_directors'] . '</td>';
+											echo '<td>' . $division['division_head'] . '</td>';
 											echo '<td>';
 											foreach ($division['designated_employees'] as $designation) {
 												echo '<span class="badge badge-primary">' . $designation . '</span> ';

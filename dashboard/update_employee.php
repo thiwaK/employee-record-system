@@ -1,6 +1,6 @@
 <?php
 	include("../inc/header.php");
-	include('../phpclasses/pagination.php');
+	// include('../phpclasses/pagination.php');
 	include("../inc/db_connect.php");
 
 	
