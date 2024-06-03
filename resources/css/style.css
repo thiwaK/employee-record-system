@@ -1,0 +1,143 @@
+/* Thiwanka Kaushal */
+:root{
+    --primary:#401EE1;
+    --primary-dark:rgb(6, 53, 118);
+    --tertiary:#E1401E;
+    --icon:#033e8c;
+
+}
+/*
+.submenu {
+    margin-left: 15px;
+}
+
+section {
+    height: 100vh;
+}
+
+.sidebar {
+    width: 16%;
+    max-width: 256px;
+    height: 100%;
+    background: var(--primary);
+    color: whitesmoke;
+} 
+.nav-item a{
+    display: block;
+    padding: 12px 10px;
+    color: #78d3ff;
+    font-size: 1.1em;
+}
+.submenu:hover{
+    background: #03364e;
+}
+.nav-item.current{
+    background: #03364e;
+}
+.nav-item.current a{
+    color: #fff;
+}
+.nav-item a:hover{
+    color: #fff;
+} */
+
+/* End Thiwanka kaushal */
+
+footer {
+    height: 60px;
+    background-color: #f8f9fa;
+  }
+
+.container-fluid {
+    display: flex;
+    padding-left: 0%;
+    padding-right: 0%;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); 
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+}
+
+.nav-link-icon {
+    margin-right: 5px;
+    color:var(--icon);
+}
+
+
+.nav-link:hover .nav-link-icon {
+    color:rgba(255, 255, 255, 0.8);
+}
+
+li.nav-item a:hover {
+    background-color: #215cac;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.submenu {
+    margin-left: 15px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Login */
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.fade-in.show {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.fade-out.hide {
+    opacity: 0;
+}
+
+/* Context Menu Styles */
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid var(--primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.context-menu ul {
+    list-style: none;
+    margin: 5px;
+    padding: 5px 0;
+}
+
+.context-menu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.context-menu ul li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Page headers */
+.header, .content, .footer {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.header {
+    margin-bottom: 20px;
+}
