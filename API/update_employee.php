@@ -1,7 +1,12 @@
 <?php
 
-include("../inc/db_connect.php");
-session_start();
+include("../include/db_connect.php");
+include("../include/validate_login.php");
+
+if (!in_array($usertype, $adminOnly)){
+    echo json_encode(array("response" => 900, "message" => "Unauthorized."));
+    exit;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize the input data
@@ -33,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if employee already exists
     $emp_numb = mysqli_query($db_connect, "SELECT employee_number FROM employees WHERE employee_number = '$employee_number'");
 
-    if ($emp_numb->num_rows !== 0) {
-        // Employee does exist
+    if ($emp_numb->num_rows === 1) {
+        // Employee exist
         $sql = "UPDATE employees 
         SET name_with_initials = ?, 
             name_denoted_initials = ?, 
@@ -62,8 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt = $db_connect->prepare($sql);
         $stmt->bind_param(
-            "sssssssssisisssssssssi",
-            $employee_number,
+            "ssssssssssssssssssssss",
             $name_with_initials,
             $name_denoted_initials,
             $date_of_birth,
@@ -84,7 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $joined_nrmc,
             $status,
             $status_date,
-            $subject_to_desciplinary
+            $subject_to_desciplinary,
+            $employee_number
         );
 
         if ($stmt->execute()) {

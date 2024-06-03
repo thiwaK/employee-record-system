@@ -1,6 +1,12 @@
 <?php
 
-include("../inc/header.php");
+include("../include/header.php");
+include("../include/validate_login.php");
+if (!in_array($usertype, $allowedRoles)){
+    echo "Unauthorized.";
+    exit;
+}
+
 $employee_number = $_GET['employee_number'];
 
 $query = "SELECT * FROM employees WHERE employee_number = '$employee_number'";
@@ -12,6 +18,12 @@ if ($result->num_rows > 0) {
     echo "No employee found with the provided ID.";
     exit;
 }
+
+
+$employee['appointment'] = ($employee['appointment'] == "1") ? "Yes" : "No";
+$employee['subject_to_desciplinary'] = ($employee['subject_to_desciplinary'] == "1") ? "Yes" : "No";
+
+
 ?>
 
 <style>
@@ -45,7 +57,7 @@ if ($result->num_rows > 0) {
     
         <!-- Left sidebar for navigation -->
         <section class="col-lg-2 col-md-3 left border-right m-0" >
-            <?php include("../inc/sidebar.php"); ?>
+            <?php include("../include/sidebar.php"); ?>
         </section>
 
         <!-- Main content area -->
@@ -189,5 +201,5 @@ if ($result->num_rows > 0) {
 
 
 <?php
-	include("../inc/footer.php");
+	include("../include/footer.php");
 ?>

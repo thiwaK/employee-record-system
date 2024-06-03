@@ -1,7 +1,13 @@
 <?php
 
-include("../inc/db_connect.php");
-session_start();
+
+include("../include/db_connect.php");
+include("../include/validate_login.php");
+
+if (!in_array($usertype, $adminOnly)){
+    echo json_encode(array("response" => 900, "message" => "Unauthorized."));
+    exit;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize the input data

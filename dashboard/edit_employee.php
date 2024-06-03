@@ -1,7 +1,13 @@
 	<?php
 
-		include("../inc/header.php");
-		include("../inc/db_connect.php");
+		include("../include/header.php");
+		include("../include/db_connect.php");
+		include("../include/validate_login.php");
+
+		if (!in_array($usertype, $adminOnly)){
+			echo "Unauthorized.";
+			exit;
+		}
 
 		$result = $db_connect->query("SHOW TABLES LIKE 'salary_scales'");
 		if ($result->num_rows <= 0) {
@@ -106,7 +112,7 @@
     
         <!-- Left sidebar for navigation -->
         <section class="col-lg-2 col-md-3 left border-right m-0" >
-            <?php include("../inc/sidebar.php"); ?>
+            <?php include("../include/sidebar.php"); ?>
         </section>
 
         <!-- Main content area -->
@@ -140,10 +146,10 @@
 								<?php
 									if($salary_scales_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($salary_scales_result)){
-											if ($employee['scale'] == $rec['scale_name']){
-												echo("\t\t\t\t<option selected value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
+											if ($employee['salary_scale'] == $rec['scale_name']){
+												echo("<option selected value='".$rec["scale_name"]."'>".$rec["scale_name"]."</option>\n");
 											} else {
-												echo("\t\t\t\t<option value='".$rec["scale_id"]."'>".$rec["scale_name"]."</option>\n");
+												echo("<option value='".$rec["scale_name"]."'>".$rec["scale_name"]."</option>\n");
 											}
 											
 										}
@@ -198,9 +204,9 @@
 									if($divisions_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($divisions_result)){
 											if ($employee['division_name'] == $rec['division_name']){
-												echo("\t\t\t\t<option selected value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
+												echo("\t\t\t\t<option selected value='".$rec["division_name"]."'>".$rec["division_name"]."</option>\n");
 											} else {
-												echo("\t\t\t\t<option value='".$rec["division_id"]."'>".$rec["division_name"]."</option>\n");
+												echo("\t\t\t\t<option value='".$rec["division_name"]."'>".$rec["division_name"]."</option>\n");
 											}
 										}
 									}	
@@ -213,10 +219,10 @@
 								<?php
 									if($positions_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($positions_result)){
-											if ($employee['position'] == $rec['position_name']){
-												echo("\t\t\t\t<option selected value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
+											if ($employee['designation'] == $rec['position_name']){
+												echo("\t\t\t\t<option selected value='".$rec["position_name"]."'>".$rec["position_name"]."</option>\n");
 											} else {
-												echo("\t\t\t\t<option value='".$rec["position_id"]."'>".$rec["position_name"]."</option>\n");
+												echo("\t\t\t\t<option value='".$rec["position_name"]."'>".$rec["position_name"]."</option>\n");
 											}
 											
 										}
@@ -230,10 +236,10 @@
 								<?php
 									if($employee_classes_result->num_rows > 0){
 										while($rec = mysqli_fetch_assoc($employee_classes_result)){
-											if ($employee['class_name'] == $rec['class_name']){
-												echo("\t\t\t\t<option selected value='".$rec["class_id"]."'>".$rec["classn_name"]."</option>\n");
+											if ($employee['class'] == $rec['class_name']){
+												echo("\t\t\t\t<option selected value='".$rec["class_name"]."'>".$rec['class_name']."</option>\n");
 											} else {
-												echo("\t\t\t\t<option value='".$rec["class_id"]."'>".$rec["class_name"]."</option>\n");
+												echo("\t\t\t\t<option value='".$rec['class_name']."'>".$rec['class_name']."</option>\n");
 											}
 											
 										}
@@ -295,9 +301,9 @@
 								<?php
 									for ($i = 0; $i < count($emp_status_array); $i++) {
 										if ($employee['status'] == $emp_status_array[$i]['name']){
-											echo "<option selected value='" . $emp_status_array[$i]['id'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
+											echo "<option selected value='" . $emp_status_array[$i]['name'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
 										} else {
-											echo "<option value='" . $emp_status_array[$i]['id'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
+											echo "<option value='" . $emp_status_array[$i]['name'] . "'>" . $emp_status_array[$i]['name'] . "</option>";
 										}
 									}
 								?>
@@ -325,7 +331,7 @@
             
     </div>
 
-	<?php include("../inc/notification_model.php");?>
+	<?php include("../include/notification_model.php");?>
 
 	<script>
 
@@ -359,5 +365,5 @@
 
 
 <?php
-	include("../inc/footer.php");
+	include("../include/footer.php");
 ?>

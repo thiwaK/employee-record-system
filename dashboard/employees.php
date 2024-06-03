@@ -1,27 +1,22 @@
 <?php
-	include("../inc/header.php");
+	include("../include/header.php");
     // include('../phpclasses/pagination.php');
-	include("../inc/db_connect.php");
+	include("../include/db_connect.php");
+	include("../include/validate_login.php");
+	if (!in_array($usertype, $allowedRoles)){
+		echo "Unauthorized.";
+		exit;
+	}
 
     $limit = 10;
 	$getempcount = 0;
-
-	if ($getempcount > 0){				
-		//initialize pagination class
-		$pagConfig = array(
-			'totalRows' => $getempcount,
-			'perPage' => $limit,
-			'link_func' => 'searchFilter'
-		);
-		$pagination =  new Pagination($pagConfig);
-	}
 ?>
 
 <div class="container-fluid">
 	<div class="row ml-0 mr-0">
 		<!-- Left sidebar for navigation -->
 		<section class="col-lg-2 col-md-3 left border-right m-0" >
-			<?php include("../inc/sidebar.php"); ?>
+			<?php include("../include/sidebar.php"); ?>
 		</section>
 
 		<!-- Main content area -->
@@ -30,9 +25,9 @@
 		</section>
 	</div>
 
-	<?php include("../inc/context_menu.php"); ?>
+	<?php include("../include/context_menu.php"); ?>
     <?php include("../templates/employee_context.php"); ?>
-	<?php include("../inc/notification_model.php"); ?>
+	<?php include("../include/notification_model.php"); ?>
 
 
 	<script>

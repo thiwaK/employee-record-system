@@ -1,5 +1,5 @@
 <?php
-    include("../inc/header.php");
+    include("../include/header.php");
 
     include('../phpclasses/pagination.php');
 

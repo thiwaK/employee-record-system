@@ -1,6 +1,6 @@
 <?php
 	ob_start();
-	include("../inc/header.php");
+	include("../include/header.php");
     include('../phpclasses/pagination.php');
     $limit = 10;
 ?>
@@ -13,7 +13,7 @@
 		
 			<!-- Left sidebar for navigation -->
 			<section class="col-lg-2 col-md-3 left border-right m-0" >
-				<?php include("../inc/sidebar.php"); ?>
+				<?php include("../include/sidebar.php"); ?>
 			</section>
 
 			<!-- Main content area -->

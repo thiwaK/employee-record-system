@@ -1,7 +1,12 @@
 <?php
 
-include("../inc/db_connect.php");
-session_start();
+include("../include/db_connect.php");
+include("../include/validate_login.php");
+
+if (!in_array($usertype, $adminOnly)){
+    echo json_encode(array("response" => 900, "message" => "Unauthorized."));
+    exit;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -15,7 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($emp_numb->num_rows === 0) {
         // Employee does not exist, insert into database
-        $sql = "INSERT INTO employees (username, password, accounttype, employee_number)
+        $hashed_password = base64_encode(password_hash($password, PASSWORD_DEFAULT));
+
+        $sql = "INSERT INTO users (username, password, accounttype, employee_number)
                 VALUES (?, ?, ?, ?)";
         
         $stmt = $db_connect->prepare($sql);
@@ -23,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "ssss",
            
             $username,
-            $password,
+            $hashed_password,
             $accounttype,
             $employee_number,
         );

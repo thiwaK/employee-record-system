@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,21 +8,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
+  <!-- <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap"
-	rel="stylesheet">
+	rel="stylesheet"> -->
 
-  <link rel="stylesheet" type="text/css" href="/ERS/css/bootstrap.min.css">
-  <link href="/ERS/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/ERS/resources/css/bootstrap.min.css">
+  <link href="/ERS/resources/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> -->
 
-  <link href="/ERS/css/theme.css" rel="stylesheet" id="style-default">
-  <link rel="stylesheet" type="text/css" href="/ERS/css/style.css" />
+  <link href="/ERS/resources/css/theme.css" rel="stylesheet" id="style-default">
+  <link rel="stylesheet" type="text/css" href="/ERS/resources/css/style.css" />
 
-  <script src="/ERS/js/jquery.slim.min.js"></script>
-  <script src="/ERS/js/bootstrap.bundle.min.js"></script>
+  <script src="/ERS/resources/js/jquery.slim.min.js"></script>
+  <script src="/ERS/resources/js/bootstrap.bundle.min.js"></script>
 
   <style>
     html, body, .container, .row {
@@ -35,7 +33,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background-image: url('images/bg1.jpg');
+      background-image: url('resources/images/bg1.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -78,7 +76,7 @@
 	    <div class="col-4 card">
         <div class="row justify-content-center mb-0 mt-4">
           <div class="col-auto">
-            <img class="card-img-top" src="images/agri_logo.png" alt="Institute Logo">
+            <img class="card-img-top" src="resources/images/agri_logo.png" alt="Institute Logo">
           </div>
           <!-- <div class="col-auto">
             <img class="card-img-top" src="images/logo.png" alt="Institute Logo">
@@ -88,7 +86,7 @@
           <p class="card-title text-center mb-3 ml-2 mr-2">Employee Record System</p>
           <h5 class="card-title text-center mb-5">Natural Resources Management Center</h5>
           <div id="errorMessage" class="text-center mt-3 mb-4"></div>
-          <form id="loginForm" class="form" method="post" action="/ERS/dashboard/login.php" novalidate>
+          <form id="loginForm" class="form" method="post" action="/ERS/API/login.php" novalidate>
             
             <div class="form-group">
               <div class="input-group">
@@ -134,7 +132,7 @@
       event.preventDefault();
         var formData = new FormData(this);
 
-        fetch("/ERS/dashboard/login.php", {
+        fetch("/ERS/API/login.php", {
             method: "POST",
             body: formData
         })
@@ -189,4 +187,4 @@
 
 
 
-  <?php //include ("./inc/footer.php"); ?>
+  <?php include ("include/footer.php"); ?>

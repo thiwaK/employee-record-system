@@ -1,5 +1,6 @@
 
--- NRMC Employee Database            
+-- NRMC Employee Record System Database
+-- Tiwanka Kaushal Munasinghe
 
 -- Commit comment
 -- * alter inefficient data definitions
@@ -218,7 +219,8 @@ INSERT INTO `positions` (`position_name`) VALUES
 
 INSERT INTO `employees` 
 (`employee_number`, `name_with_initials`,               `name_denoted_initials`, `date_of_birth`, `nic`,        `email`,                          `appointment`, `salary_scale`, `permanent_address`, `postal_address`, `phone_office`, `phone_mobile`, `division_name`,                       `service_category`, `class`, `designation`, `duties_assigned`, `joined_public_date`, `joined_nrmc`, `status`,           `status_date`, `subject_to_desciplinary`) VALUES \
-('TK-0001',         'M.W. Thiwanka Kaushal Munasinghe', 'M... W...',             '1999-06-19',    '991010101v', 'thiwanka.kaushal.mob@gmail.com', '0',           'SP' ,          'Kurunegala',        'Kurunegala',     '777123456',    '777123456',    'Land Use Planning & Geo-Informatics', 'Intern',           'I',     'Intern',      'Developer',       '2024-04-29',         '2024-04-29',  'Current Employee', '2024-04-29',  '0');
+('TK-0001',         'M.W. Thiwanka Kaushal Munasinghe', 'M... W...',             '1999-06-19',    '991010101v', 'thiwanka.kaushal.mob@gmail.com', '1',           'SP' ,          'Kurunegala',        'Kurunegala',     '762644257',    '762644257',    'Land Use Planning & Geo-Informatics', 'Intern',           'I',     'Intern',      'Developer',       '2024-04-29',         '2024-04-29',  'Current Employee', '2024-06-07',  '0');
 
 INSERT INTO `users` (`username`, `password`, `accounttype`, `employee_number`) VALUES
-('TK', 'WhoCares', 'Admin', 'TK-0001')
+('TK2', 'JDJ5JDEwJC96RUd5UFpsQUNrL0ROWWNSY3MxOGVJWjdsYVVwV1Z6NkRlSkUwajY3SzNXRmx2QkVPZkRl', 'User', 'TK-0001'),
+('TK', 'JDJ5JDEwJC96RUd5UFpsQUNrL0ROWWNSY3MxOGVJWjdsYVVwV1Z6NkRlSkUwajY3SzNXRmx2QkVPZkRl', 'Admin', 'TK-0001')

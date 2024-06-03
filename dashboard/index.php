@@ -1,11 +1,10 @@
 <?php
-	include("../inc/header.php");
+	include("../include/header.php");
 	// include('../phpclasses/pagination.php');
-	include("../inc/db_connect.php");
+	include("../include/db_connect.php");
+	include("../include/validate_login.php");
 
 	$limit = 10;         
-		
-	$allowedRoles = array("Admin", "Manager", "User");
 	$activeEmployeeCount = 0;
 	$retiredEmployeeCount = 0;
 	$transferredEmployeeCount = 0;
@@ -87,7 +86,7 @@
 
 
 	} else {
-		header("Location: /ERS/dashboard/logout.php");
+		// header("Location: /ERS/API/logout.php");
 	}
 ?>
 
@@ -96,7 +95,7 @@
     
 		<!-- Left sidebar for navigation -->
 		<section class="col-lg-2 col-md-3 left border-right m-0" >
-			<?php include("../inc/sidebar.php"); ?>
+			<?php include("../include/sidebar.php"); ?>
 		</section>
 
 		<!-- Main content area -->
@@ -233,5 +232,5 @@
 	</div>
 
 <?php
-	include("../inc/footer.php");
+	include("../include/footer.php");
 ?>

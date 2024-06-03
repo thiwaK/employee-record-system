@@ -1,7 +1,13 @@
 <?php
-	include("../inc/header.php");
+	include("../include/header.php");
 	// include('../phpclasses/pagination.php');
-	include("../inc/db_connect.php");
+	include("../include/db_connect.php");
+	include("../include/validate_login.php");
+
+	if (!in_array($usertype, $adminOnly)){
+		echo "Unauthorized.";
+		exit;
+	}
 	
 	$result = $db_connect->query("SHOW TABLES LIKE 'salary_scales'");
 	if ($result->num_rows <= 0) {
@@ -47,7 +53,7 @@
 	<div class="row ml-0 mr-0">
 		<!-- Left sidebar for navigation -->
 		<section class="col-lg-2 col-md-3 left border-right m-0" >
-			<?php include("../inc/sidebar.php"); ?>
+			<?php include("../include/sidebar.php"); ?>
 		</section>
 
 		<!-- Main content area -->
@@ -238,7 +244,7 @@
 		</section>
 	</div>
 
-	<?php include("../inc/notification_model.php"); ?>
+	<?php include("../include/notification_model.php"); ?>
 
 
 
@@ -272,5 +278,5 @@
 </script>
 
 <?php
-include("../inc/footer.php");
+include("../include/footer.php");
 ?>
