@@ -1,6 +1,5 @@
 <?php
 	include("../include/header.php");
-	// include('../phpclasses/pagination.php');
 	include("../include/db_connect.php");
 	include("../include/validate_login.php");
 
@@ -86,7 +85,7 @@
 
 
 	} else {
-		// header("Location: /ERS/API/logout.php");
+		// header("Location: /ERS/api/logout.php");
 	}
 ?>
 

@@ -195,7 +195,7 @@
 			event.preventDefault();
 			
 			let formData = new FormData(this);
-			fetch('../API/update_user.php', {
+			fetch('../api/update_user.php', {
 				method: 'POST',
 				body: formData
 			})

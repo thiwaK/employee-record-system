@@ -50,6 +50,19 @@ $employee['subject_to_desciplinary'] = ($employee['subject_to_desciplinary'] == 
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
+        .floating-buttons {
+            position: fixed;
+            bottom: 1%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+        }
+        .floating-buttons button {
+            margin-bottom: 10px;
+            width: 100px;
+        }
     </style>
 
 <div class="container-fluid">
@@ -61,7 +74,7 @@ $employee['subject_to_desciplinary'] = ($employee['subject_to_desciplinary'] == 
         </section>
 
         <!-- Main content area -->
-        <section class="col-md-8 col-lg-9 right border-left m-0">
+        <section id="main-content" class="col-md-8 col-lg-9 right border-left m-0">
                 <div class="header">
                     <h2>Employee Details</h2>
                 </div>
@@ -194,11 +207,53 @@ $employee['subject_to_desciplinary'] = ($employee['subject_to_desciplinary'] == 
                         </div>
                     </div>
                 </div>
-            </section>
+        </section>
             
     </div>
 
+    <div class="floating-buttons">
+        <button class="btn btn-primary" onclick="printMainContent()"><span class="nav-icon"><i class="fa fa-print"></i></span></button>
+        <button class="btn btn-secondary" onclick="exportToCSV()"><span class="nav-icon"><i class="fa fa-table"></i></span></button>
+    </div>
 
+
+    <script>
+
+        function printMainContent() {
+            const printContents = document.getElementById('main-content').innerHTML;
+
+            const printWindow = window.open('', '', 'height=1122,width=793');
+            printWindow.document.write('<!DOCTYPE html><html><head><title>Print</title>');
+            
+            // Add the necessary CSS files
+            printWindow.document.write('<link rel="stylesheet" href="/ERS/resources/css/bootstrap.min.css" media="screen,print">');
+            printWindow.document.write('<link rel="stylesheet" type="text/css" href="/ERS/resources/css/font-awesome.min.css" media="screen,print">');
+            // printWindow.document.write('<link rel="stylesheet" href="/ERS/resources/css/theme.css" id="style-default" media="screen,print">');
+            printWindow.document.write('<link rel="stylesheet" type="text/css" href="/ERS/resources/css/style.css" media="screen,print"/>');
+            printWindow.document.write('<link rel="stylesheet" type="text/css" href="/ERS/resources/css/bootstrap-print.min.css" media="screen,print"/>');
+            
+            printWindow.document.write('<style>');
+            printWindow.document.write('body {font-family: Arial, sans-serif; margin:0.5in}\
+            .form-group label {font-weight: bold; margin-bottom: 5px}\
+            .form-row label {font-weight: bold;}\
+            .header {margin-bottom: 0.25in;}\
+            label {margin-top: 10px}\
+            .boxed-text {padding: 10px;margin-bottom: 15px;border: 1px solid #ddd;border-radius: 5px;background-color: #fff;}');
+            printWindow.document.write('</style>');
+
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+
+
+    </script>
 
 <?php
 	include("../include/footer.php");

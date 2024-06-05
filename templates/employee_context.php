@@ -52,7 +52,7 @@
                 var formData = new FormData();
                 formData.append('employee_number', empId);
 
-                fetch('../API/delete_employee.php', {
+                fetch('../api/delete_employee.php', {
                     method: 'POST',
                     body: formData
                 })

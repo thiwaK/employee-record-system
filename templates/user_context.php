@@ -59,7 +59,7 @@
 
                 // console.log(empId, u_name, acc_type);
 
-                fetch('../API/delete_user.php', {
+                fetch('../api/delete_user.php', {
                     method: 'POST',
                     body: formData
                 })

@@ -1,6 +1,5 @@
 <?php
 	include("../include/header.php");
-    // include('../phpclasses/pagination.php');
 	include("../include/db_connect.php");
 	include("../include/validate_login.php");
 	if (!in_array($usertype, $allowedRoles)){
@@ -54,7 +53,7 @@
 
 		function fetchEmployees(page = 1, update=0) {
 			
-			var url = '../API/get_employee.php?q=' + qValue;
+			var url = '../api/get_employee.php?q=' + qValue;
 			
 			fetch(url)
 				.then(response => response.json())
@@ -111,3 +110,7 @@
 		});
 
 	</script>
+
+<?php
+include("../include/footer.php");
+?>

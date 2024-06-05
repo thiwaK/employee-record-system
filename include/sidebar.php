@@ -99,7 +99,7 @@ include("db_connect.php");
 
 			<!-- Logout -->
             <li class="nav-item">
-				<a class="nav-link" href="../API/logout.php"><span class="nav-link-icon"><i class="fa fa-sign-out"></i></span><span class="nav-link-text ps-1">Sign Out</span></a>
+				<a class="nav-link" href="../api/logout.php"><span class="nav-link-icon"><i class="fa fa-sign-out"></i></span><span class="nav-link-text ps-1">Sign Out</span></a>
 			</li>
         </ul>
     </div>

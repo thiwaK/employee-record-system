@@ -1,6 +1,5 @@
 <?php
 	include("../include/header.php");
-    // include('../phpclasses/pagination.php');
 	include("../include/db_connect.php");
 	include("../include/validate_login.php");
 	if (!in_array($usertype, $allowedRoles)){
@@ -59,7 +58,7 @@
 
 			const searchValue = searchElement.value;
 			const selectedValue = searchOptionElement.value;
-			var url = '../API/get_employee.php?q=' + qValue;
+			var url = '../api/get_employee.php?q=' + qValue;
 
 			if (searchValue) {
 				url += '&s=' + searchValue + '&o=' + selectedValue;
@@ -118,3 +117,7 @@
 		});
 
 	</script>
+
+<?php
+include("../include/footer.php");
+?>

@@ -1,6 +1,5 @@
 <?php
 	include("../include/header.php");
-	// include('../phpclasses/pagination.php');
 	include("../include/db_connect.php");
 	include("../include/validate_login.php");
 
@@ -256,7 +255,7 @@
 		event.preventDefault();
 		
 		let formData = new FormData(this);
-		fetch('../API/add_employee.php', {
+		fetch('../api/add_employee.php', {
 			method: 'POST',
 			body: formData
 		})

@@ -94,7 +94,7 @@
 
 		if(validatePasswords()){
 			let formData = new FormData(this);
-			fetch('../API/add_user.php', {
+			fetch('../api/add_user.php', {
 				method: 'POST',
 				body: formData
 			})
@@ -129,3 +129,7 @@
         return true;
     }
 </script>
+
+<?php
+include("../include/footer.php");
+?>

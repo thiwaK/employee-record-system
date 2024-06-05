@@ -86,7 +86,7 @@
           <p class="card-title text-center mb-3 ml-2 mr-2">Employee Record System</p>
           <h5 class="card-title text-center mb-5">Natural Resources Management Center</h5>
           <div id="errorMessage" class="text-center mt-3 mb-4"></div>
-          <form id="loginForm" class="form" method="post" action="/ERS/API/login.php" novalidate>
+          <form id="loginForm" class="form" method="post" action="/ERS/api/login.php" novalidate>
             
             <div class="form-group">
               <div class="input-group">
@@ -132,7 +132,7 @@
       event.preventDefault();
         var formData = new FormData(this);
 
-        fetch("/ERS/API/login.php", {
+        fetch("/ERS/api/login.php", {
             method: "POST",
             body: formData
         })

@@ -1,6 +1,5 @@
 <?php
 	include("../include/header.php");
-    // include('../phpclasses/pagination.php');
 	include("../include/db_connect.php");
 	include("../include/validate_login.php");
 
@@ -12,15 +11,6 @@
     $limit = 10;
 	$getempcount = 0;
 
-	if ($getempcount > 0){				
-		//initialize pagination class
-		$pagConfig = array(
-			'totalRows' => $getempcount,
-			'perPage' => $limit,
-			'link_func' => 'searchFilter'
-		);
-		$pagination =  new Pagination($pagConfig);
-	}
 ?>
 
 <div class="container-fluid">
@@ -78,7 +68,7 @@
 
 			const searchValue = searchElement.value;
 			const selectedValue = searchOptionElement.value;
-			var url = '../API/get_employee.php?q=' + encodeURIComponent(qValue);
+			var url = '../api/get_employee.php?q=' + encodeURIComponent(qValue);
 
 			if (searchValue) {
 				url += '&s=' + searchValue + '&o=' + selectedValue;
@@ -137,3 +127,7 @@
 		});
 
 	</script>
+
+<?php
+include("../include/footer.php");
+?>
