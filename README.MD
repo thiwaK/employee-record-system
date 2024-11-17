@@ -18,14 +18,23 @@ During my internship, I was tasked with updating an existing, non-functional loc
 - **Technology Stack**: Built with PHP, JavaScript, and Bootstrap.
 
 ---
+⚠️ Limitations
+- **Missing Functions**: Certain functionalities are not implemented yet, such as:
+    - Printing filtered results.
+    - Backing up the database.
 
+- **Screen Size Restriction**: The system is optimized for desktop computer screens only. Bootstrap responsiveness has not been implemented to support smaller screen sizes or mobile devices.
+- **Potential Bugs**: As the system was developed within a short time frame, there may be some unidentified bugs that could affect functionality.
+
+---
 ## ⚙️ Installation
 1.  Clone the repository: `git clone https://github.com/thiwaK/employee-record-system`
 2.  Set up the database using the provided SQL file.
 3.  Use a local server (e.g., XAMPP or WAMP) to run the application.
 
----
 
+
+---
 ## 📸 Screenshots  
 
 ### **Dashboard**  
