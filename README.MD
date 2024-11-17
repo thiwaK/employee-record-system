@@ -11,14 +11,15 @@ During my internship, I was tasked with updating an existing, non-functional loc
 - **Dashboard**: Provides an overview of the organization's structure and employee statistics.
 - **Custom Right-Click Context Menu**: Includes update, edit, and delete functionality.
 - **Dynamic Loading**: The entire system is dynamically configured and loaded based on the database, with no hardcoded settings.
-- **Employee Management**: Add, remove, and update employee details.
+- **Separate API**: The API is separated from the rest of the application code, allowing for cleaner structure and easier scalability.
+- **Employee Management**: Add, remove, and update employee/user details.
 - **Filtering**: Filter employee records based on various criteria.
 - **Access Control**: Role-based access for Admin and Manager users.
 - **Security**: Intermediate-level security measures for data protection.
 - **Technology Stack**: Built with PHP, JavaScript, and Bootstrap.
 
 ---
-⚠️ Limitations
+## ⚠️ Limitations
 - **Missing Functions**: Certain functionalities are not implemented yet, such as:
     - Printing filtered results.
     - Backing up the database.
@@ -31,8 +32,6 @@ During my internship, I was tasked with updating an existing, non-functional loc
 1.  Clone the repository: `git clone https://github.com/thiwaK/employee-record-system`
 2.  Set up the database using the provided SQL file.
 3.  Use a local server (e.g., XAMPP or WAMP) to run the application.
-
-
 
 ---
 ## 📸 Screenshots  
