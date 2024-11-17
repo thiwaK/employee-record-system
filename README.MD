@@ -8,8 +8,9 @@ During my internship, I was tasked with updating an existing, non-functional loc
 
 ---
 ## ✨ Features
-- **Custom Right-Click Context Menu**: Includes update, edit, and delete functionality.
 - **Dashboard**: Provides an overview of the organization's structure and employee statistics.
+- **Custom Right-Click Context Menu**: Includes update, edit, and delete functionality.
+- **Dynamic Loading**: The entire system is dynamically configured and loaded based on the database, with no hardcoded settings.
 - **Employee Management**: Add, remove, and update employee details.
 - **Filtering**: Filter employee records based on various criteria.
 - **Access Control**: Role-based access for Admin and Manager users.
@@ -25,10 +26,17 @@ During my internship, I was tasked with updating an existing, non-functional loc
 
 ---
 
-## 📸 Screenshots
-*(Include screenshots here)*
+## 📸 Screenshots  
 
----
+### **Dashboard**  
+<img src="https://raw.githubusercontent.com/thiwaK/employee-record-system/refs/heads/master/resources/images/img_dashboard.png?raw=true"> 
 
-## 📜 License
-*(Specify the license here, e.g., MIT, Apache 2.0, etc.)*
+### **Divisions**  
+<img src="https://raw.githubusercontent.com/thiwaK/employee-record-system/refs/heads/master/resources/images/img_divisions.png?raw=true">
+
+### **Employees**  
+<img src="https://raw.githubusercontent.com/thiwaK/employee-record-system/refs/heads/master/resources/images/img_employee_filters.png?raw=true">
+
+### **Users**  
+<img src="https://raw.githubusercontent.com/thiwaK/employee-record-system/refs/heads/master/resources/images/img_user_context.png?raw=true">
+
